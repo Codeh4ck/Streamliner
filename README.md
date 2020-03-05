@@ -39,11 +39,11 @@ Streamliner is written with the Fluent design. This means you can create instanc
 Define your flow's metadata. The information required is a Guid Id and string Name.
 
 ```csharp
-	Guid flowId = Guid.NewGuid();
-	string name = "Test Flow";
+Guid flowId = Guid.NewGuid();
+string name = "Test Flow";
 ```
 
-Optionally, inherit and implement the ILogger interface to enable logging. You can also inherit and implement the IAuditLogger interface to enable
+Optionally, inherit and implement the `ILogger` interface to enable logging. You can also inherit and implement the `IAuditLogger` interface to enable
 audit logging, such as receiving notifications about a block's status, if it's starting, started etc. A block will also emit a ping every 30 seconds
 to notify the programmer that it is running.
 
