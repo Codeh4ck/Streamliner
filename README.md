@@ -8,6 +8,13 @@ Streamliner is a library that enables creation of workflows in the form of Produ
 inspired by Microsoft's TPL DataFlow library. Streamliner was created with abstraction in mind, with blocks that support 
 any given model.
 
+## What kind of flows does Streamliner support?
+
+Currently Streamliner supports two kinds of flows:
+
+* Streamflow - Unlimited repetitions, runs until cancellation is requested
+* Workflow - Fixed iterations
+
 ## What kind of blocks does Streamliner support?
 
 Streamliner supports a number of standard blocks. The blocks supported are listed below:
@@ -46,4 +53,50 @@ string name = "Test Flow";
 Optionally, inherit and implement the `ILogger` interface to enable logging. You can also inherit and implement the `IAuditLogger` interface to enable
 audit logging, such as receiving notifications about a block's status, if it's starting, started etc. A block will also emit a ping every 30 seconds
 to notify the programmer that it is running.
+
+Instantiate a `FlowDefinition` class by using the `FlowDefinitionFactory` fluent class like the example blow.
+
+### *For a streamflow:*
+
+```csharp
+FlowDefinition definition = FlowDefinitionFactory
+        .CreateStreamflow()
+        .WithServiceInfo(flowId, name);
+```
+
+This will create a FlowDefinition that will run until cancellation is requested by the programmer. 
+
+### *For a workflow:*
+
+```csharp
+FlowDefinition definition = FlowDefinitionFactory
+        .CreateWorkflow()
+        .WithIterations(10)
+        .WithServiceInfo(flowId, name);
+```
+
+This will create a FlowDefinition that will run for 10 iterations.
+
+Once you're done with the FlowDefinition, it is time to add your first Producer to the flow. 
+Create a producer as follows:
+
+```csharp
+ Guid producerId = Guid.NewGuid();
+string producerName = "Test Producer";
+
+    var producer = ProducerDefinitionFactory
+        .CreateDispatcher()
+        .WithParallelismInstances(1)
+        .WithServiceInfo(producerId, producerName)
+        .ThatProduces<HelloWorldModel>()
+        .WithAction<TestProducerAction>();
+```
+
+*Creating a specific producer type:*
+
+Dispatcher | Broadcaster
+------------ | -------------
+`CreateDispatcher()` | `CreateBroadcaster()`
+
+In the example above, we're using `.CreateDispatcher()` to create a dispatcher producer.
 
