@@ -81,7 +81,7 @@ Once you're done with the FlowDefinition, it is time to add your first Producer 
 Create a producer as follows:
 
 ```csharp
- Guid producerId = Guid.NewGuid();
+Guid producerId = Guid.NewGuid();
 string producerName = "Test Producer";
 
     var producer = ProducerDefinitionFactory
@@ -99,4 +99,13 @@ Dispatcher | Broadcaster
 `CreateDispatcher()` | `CreateBroadcaster()`
 
 In the example above, we're using `.CreateDispatcher()` to create a dispatcher producer.
+
+*Fluent method description:*
+
+Method | Description
+------------ | -------------
+`WithParallelismInstances(uint param)` | Dictates to the plan engine that param number of block instances should be created
+`WithServiceInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging
+`ThatProduces<T>()` | T is a class inherited from `ProducerBlockActionBase<T>`. The main action the producer will execute in each cycle.
+
 
