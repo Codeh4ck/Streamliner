@@ -141,16 +141,16 @@ using Streamliner.Actions;
 
 public class TestProducerAction : ProducerBlockActionBase<HelloWorldModel>
 {
-    public override bool TryProduce(out HelloWorldModel model, CancellationToken token = default(CancellationToken))
-    {
-        model = new HelloWorldModel()
-        {
-            Message = "Hello world! We're inside a producer!",
+	public override bool TryProduce(out HelloWorldModel model, CancellationToken token = default(CancellationToken))
+	{
+		model = new HelloWorldModel()
+		{
+			Message = "Hello world! We're inside a producer!",
 			OneNumber = 20
-        };
+		};
 
-        return true;
-    }
+		return true;
+	}
 }
 ```
 
@@ -245,3 +245,48 @@ Value | Description
 ------------ | -------------
 `true` | Notifies the flow engine that the transformed value is to be passed to the next block.
 `false` | Notifies the flow engine that the transformed value is to be skipped and discarded.
+
+## Batcher block
+
+Create a batcher as follows:
+
+```csharp
+Guid batcherId = Guid.NewGuid();
+string batcherName = "Test Batcher";
+
+var batcher = BatcherDefinitionFactory
+    .CreateDispatcher()
+    .WithParallelismInstances(1)
+    .WithCapacity(1)
+    .WithMaxBatchSize(10)
+    .WithMaxBatchTimeout(TimeSpan.FromSeconds(30))
+    .WithServiceInfo(batcherId, batcherName)
+    .ThatBatches<NewHelloWorldModel>();
+```
+
+**Creating a specific batcher type:**
+
+Dispatcher | Broadcaster
+------------ | -------------
+`CreateDispatcher()` | `CreateBroadcaster()`
+
+In the example above, we're using `CreateDispatcher()` to create a dispatcher batcher.
+
+**Fluent method description:**
+
+Method | Description
+------------ | -------------
+`WithParallelismInstances(uint param)` | Dictates to the plan engine that param number of block instances should be created.
+`WithServiceInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging.
+`WithMaxBatchSize(int maxBatchSize)` | The amount of objects to be batched into a list.
+`WithMaxBatchTimeout(TimeSpan timeout)` | The amount of time to wait before sending the batch regardless. If the batch expires, a `List<T>` will be sent to the next blocks regardless.
+`ThatBatches<T>()` | `T` is the model type that will be batched. The output is always `List<T>`
+
+**Notes:**
+A batcher receives a `T` model from the previous blocks, packs them into a `List<T>` and sends the list to the next blocks. 
+The batcher will send the batch when either the max batch size is collected or the timeout is reached. 
+In any case, the maximum amount of items that are produced are determined by the max batch size. 
+Setting the batcher's capacity will determine how many `List<T>` it can produce simultaneously. 
+A batcher has no underlying action similar to producers, transformers or consumers because the functionality 
+is predetermined and is always standard. If you want to apply batching logic, you can implement it in any block that transmits data to a batcher.
+
