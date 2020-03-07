@@ -282,7 +282,7 @@ Method | Description
 `WithMaxBatchTimeout(TimeSpan timeout)` | The amount of time to wait before sending the batch regardless. If the batch expires, a `List<T>` will be sent to the next blocks regardless.
 `ThatBatches<T>()` | `T` is the model type that will be batched. The output is always `List<T>`
 
-**Notes:**
+**Notes:**  
 A batcher receives a `T` model from the previous blocks, packs them into a `List<T>` and sends the list to the next blocks. 
 The batcher will send the batch when either the max batch size is collected or the timeout is reached. 
 In any case, the maximum amount of items that are produced are determined by the max batch size. 
@@ -290,3 +290,50 @@ Setting the batcher's capacity will determine how many `List<T>` it can produce 
 A batcher has no underlying action similar to producers, transformers or consumers because the functionality 
 is predetermined and is always standard. If you want to apply batching logic, you can implement it in any block that transmits data to a batcher.
 
+## Waiter block
+
+Create a waiter as follows:
+
+```csharp
+Guid waiterId = Guid.NewGuid();
+string waiterName = "Test Waiter";
+
+var waiter = WaiterDefinitionFactory
+    .CreateDispatcher()
+    .WithParallelismInstances(1)
+    .WithCapacity(1)
+    .WithServiceInfo(waiterId, waiterName)
+    .ThatWaits<WaitableModel>();
+```
+
+**`WaitableModel()` is a model that implements the `IWaitable` interface.**
+[The `IWaitable` interface is the one provided here.](../blob/master/Streamliner/Blocks/Base/IWaitable.cs)
+
+When constructing your WaitableModel, which inherits IWaitable, do it as follows:
+
+```csharp
+var waitableModel = new WaitableModel(TimeSpan.FromSeconds(30)) { Properties... };
+```
+
+**Creating a specific waiter type:**
+
+Dispatcher | Broadcaster
+------------ | -------------
+`CreateDispatcher()` | `CreateBroadcaster()`
+
+In the example above, we're using `CreateDispatcher()` to create a dispatcher batcher.
+
+**Fluent method description:**
+
+Method | Description
+------------ | -------------
+`WithParallelismInstances(uint param)` | Dictates to the plan engine that param number of block instances should be created.
+`WithServiceInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging.
+`ThatWaits<T>()` | `T` is the model type that will be waited. `T` must always implement `IWaitable`. See above for more details.
+
+**Notes:**  
+
+A waiter receives a `T` model from the previous blocks and waits for a given `TimeSpan` amount of time before sending the model 
+to the following blocks. A waiter has no underlying action similar to producers, transformers or consumers because the 
+functionality is predetermined and is always standard. The only information it needs is the `TimeSpan WaitFor { get; set; }` 
+property that is defined in the `IWaitable` interface to be declared. 
