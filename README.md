@@ -114,9 +114,9 @@ Method | Description
 `ThatProduces<T>()` | T is a class inherited from `ProducerBlockActionBase<T>`. The main action the producer will execute in each cycle.
 
 
-###### Creating the producer's action
+## Creating the producer's action
 
-Create a class that inherits and implements `ProducerBlockActionBase<T>`. T is the model that will be produced by the produced defined above.
+Create a class that inherits and implements `ProducerBlockActionBase<T>`. `T` is the model that will be produced by the produced defined above.
 
 Following the previous step, we'll create a model called "HelloWorldModel" and a producer action called "TestProducerAction":
 
