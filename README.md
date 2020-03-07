@@ -222,18 +222,18 @@ using Streamliner.Actions;
 
 public class TestTransformerAction : TransformerBlockActionBase<HelloWorldModel, NewHelloWorldModel>
 {
-    public override bool TryTransform(HelloWorldModel input, out NewHelloWorldModel model, CancellationToken token = default(CancellationToken))
-    {
-        model = new NewHelloWorldModel()
-        {
+	public override bool TryTransform(HelloWorldModel input, out NewHelloWorldModel model, CancellationToken token = default(CancellationToken))
+	{
+		model = new NewHelloWorldModel()
+		{
 			Message = input.Message,
 			OneNumber = input.OneNumber,
 			SecondNumber = input.OneNumber * 2,
-            AndAGuid = Guid.NewGuid()
-        };
+			AndAGuid = Guid.NewGuid()
+		};
 
-        return true;
-    }
+		return true;
+	}
 }
 ```
 
