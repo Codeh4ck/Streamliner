@@ -306,8 +306,8 @@ var waiter = WaiterDefinitionFactory
     .ThatWaits<WaitableModel>();
 ```
 
-**`WaitableModel()` is a model that implements the `IWaitable` interface.**
-[The `IWaitable` interface is the one provided here.](../blob/master/Streamliner/Blocks/Base/IWaitable.cs)
+**`WaitableModel()` is a model that implements the `IWaitable` interface.**  
+[The `IWaitable` interface is the one provided here.](../master/Streamliner/Blocks/Base/IWaitable.cs)
 
 When constructing your WaitableModel, which inherits IWaitable, do it as follows:
 
@@ -335,5 +335,5 @@ Method | Description
 
 A waiter receives a `T` model from the previous blocks and waits for a given `TimeSpan` amount of time before sending the model 
 to the following blocks. A waiter has no underlying action similar to producers, transformers or consumers because the 
-functionality is predetermined and is always standard. The only information it needs is the `TimeSpan WaitFor { get; set; }` 
-property that is defined in the `IWaitable` interface to be declared. 
+functionality is predetermined and is always standard. The only required is the `TimeSpan WaitFor { get; set; }` 
+property that is defined in the `IWaitable` interface to be defined. 
