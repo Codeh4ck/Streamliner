@@ -56,7 +56,7 @@ to notify the programmer that it is running.
 
 Instantiate a `FlowDefinition` class by using the `FlowDefinitionFactory` fluent class like the example blow.
 
-### *For a streamflow:*
+### For a streamflow:
 
 ```csharp
 FlowDefinition definition = FlowDefinitionFactory
@@ -66,7 +66,7 @@ FlowDefinition definition = FlowDefinitionFactory
 
 This will create a FlowDefinition that will run until cancellation is requested by the programmer. 
 
-### *For a workflow:*
+### For a workflow:
 
 ```csharp
 FlowDefinition definition = FlowDefinitionFactory
@@ -77,35 +77,80 @@ FlowDefinition definition = FlowDefinitionFactory
 
 This will create a FlowDefinition that will run for 10 iterations.
 
-Once you're done with the FlowDefinition, it is time to add your first Producer to the flow. 
+Once you're done with the FlowDefinition, follow the next steps to add blocks to your plan.
+
+## Creating your plan's blocks
+
+### Producer block
+
 Create a producer as follows:
 
 ```csharp
 Guid producerId = Guid.NewGuid();
 string producerName = "Test Producer";
 
-    var producer = ProducerDefinitionFactory
-        .CreateDispatcher()
-        .WithParallelismInstances(1)
-        .WithServiceInfo(producerId, producerName)
-        .ThatProduces<HelloWorldModel>()
-        .WithAction<TestProducerAction>();
+var producer = ProducerDefinitionFactory
+    .CreateDispatcher()
+    .WithParallelismInstances(1)
+    .WithServiceInfo(producerId, producerName)
+    .ThatProduces<HelloWorldModel>()
+    .WithAction<TestProducerAction>();
 ```
 
-*Creating a specific producer type:*
+**Creating a specific producer type:**
 
 Dispatcher | Broadcaster
 ------------ | -------------
 `CreateDispatcher()` | `CreateBroadcaster()`
 
-In the example above, we're using `.CreateDispatcher()` to create a dispatcher producer.
+In the example above, we're using `CreateDispatcher()` to create a dispatcher producer.
 
-*Fluent method description:*
+**Fluent method description:**
 
 Method | Description
 ------------ | -------------
-`WithParallelismInstances(uint param)` | Dictates to the plan engine that param number of block instances should be created
-`WithServiceInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging
+`WithParallelismInstances(uint param)` | Dictates to the plan engine that param number of block instances should be created.
+`WithServiceInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging.
 `ThatProduces<T>()` | T is a class inherited from `ProducerBlockActionBase<T>`. The main action the producer will execute in each cycle.
 
+
+###### Creating the producer's action
+
+Create a class that inherits and implements `ProducerBlockActionBase<T>`. T is the model that will be produced by the produced defined above.
+
+Following the previous step, we'll create a model called "HelloWorldModel" and a producer action called "TestProducerAction":
+
+```csharp
+public class HelloWorldModel
+{
+	public string Message { get; set; }
+	public int OneNumber { get; set; }
+}
+```
+
+Our derived `ProducerBlockActionBase<T>` class should look like this:
+
+```csharp
+using System;
+using System.Threading;
+using Streamliner.Actions;
+
+public class TestProducerAction : ProducerBlockActionBase<HelloWorldModel>
+{
+    public override bool TryProduce(out HelloWorldModel model, CancellationToken token = default(CancellationToken))
+    {
+        model = new HelloWorldModel()
+        {
+            Message = "Hello world! We're inside a producer!",
+			OneNumber = 20
+        };
+
+        return true;
+    }
+}
+```
+
+`TryProduce()` is the main method which determines how the producer is going to produce data. You can fetch data from a queue, a database or
+any data source of your choice. The produced model is assigned to the `out T model` parameter. Returning true from `TryProduce()` will
+let the flow engine know that the produced model must be passed on the next block. Returning false will skip the model.
 
