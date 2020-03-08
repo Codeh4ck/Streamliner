@@ -1,6 +1,3 @@
-
-
-
 # Streamliner
 A .NET core library that enables the creation of code workflows that isolate responsibilities. 
 Streamliner creates a directed acyclic graph which represents the workflow in separate, single responsibility blocks.
@@ -120,7 +117,7 @@ Method | Description
 
 ### Creating the producer's action
 
-Create a class that inherits and implements `ProducerBlockActionBase<T>`. `T` is the model that will be produced by the produced defined above.
+Create a class that inherits and implements `ProducerBlockActionBase<T>`. `T` is the model that will be produced by the producer defined above.
 
 Following the previous step, we'll create a model called "HelloWorldModel" and a producer action called "TestProducerAction":
 
@@ -197,7 +194,7 @@ Method | Description
 `ThatTransforms<TIn, TOut>()` | `TIn` is the input model type of the transformer. `TOut` is the output model type of the transformer. 
 `WithAction<T>` | T is a class inherited from `TransformerBlockActionBase<TIn, TOut>`. The main action the transformer will execute in each cycle.
 
-### Creating the transformer' action
+### Creating the transformer's action
 
 Create a class that inherits and implements `TransformerBlockActionBase<TIn, TOut>`. `TIn` is the input model of the transformer, whereas, `TOut` is the output model of the transformer.
 
@@ -337,3 +334,84 @@ A waiter receives a `T` model from the previous blocks and waits for a given `Ti
 to the following blocks. A waiter has no underlying action similar to producers, transformers or consumers because the 
 functionality is predetermined and is always standard. The only required is the `TimeSpan WaitFor { get; set; }` 
 property that is defined in the `IWaitable` interface to be defined. 
+
+## Consumer block
+
+Create a consumer as follows:
+
+```csharp
+Guid consumerId = Guid.NewGuid();
+string consumerName = "Test Consumer";
+
+var consumer = ConsumerDefinitionFactory
+    .CreateConsumer()
+    .WithParallelismInstances(1)
+    .WithServiceInfo(consumerId, consumerName)
+    .ThatConsumes<NewHelloWorldModel>()
+    .WithAction<TestConsumerAction>();
+```
+
+**Fluent method description:**
+
+Method | Description
+------------ | -------------
+`CreateConsumer()` | Instructs the ConsumerDefinitionFactory to create a new consumer.
+`WithParallelismInstances(uint param)` | Dictates to the plan engine that param number of block instances should be created.
+`WithServiceInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging.
+`ThatConsumes<T>()` | `T` is the model type that will be consumed.
+`WithAction<T>` | T is a class inherited from `ConsumerBlockActionBase<T>`. The main action the consumer will execute in each cycle.
+
+### Creating the consumer's action
+
+Create a class that inherits and implements `ConsumerBlockActionBase<T>`. `T` is the model that will be consumed by the consumer defined above.
+
+Our derived `ConsumerBlockActionBase<T>` class should look like this:
+
+```csharp
+using System;
+using System.Threading;
+using Streamliner.Actions;
+
+public class TestConsumerAction : ConsumerBlockActionBase<NewHelloWorldModel>
+{
+    public override void Consume(NewHelloWorldModel model, CancellationToken token = new CancellationToken())
+    {
+        Console.WriteLine($"Message: {model.Message} - One Number: {model.OneNumber} - SecondNumber: {model.SecondNumber} - And a GUID: {model.AndAGuid:N}");
+    }
+}
+```
+
+`Consume()` is the main method which determines how the comsumer is going to consume data. 
+You can consume data in any way you determine. For instance, you can store the received data to a database, 
+add it to a queue etc. The consumer action does not return a bool since we there are no following blocks and therefore, 
+determine whether to proceed or not is unnecessary at this point.
+
+# Linking your plan's blocks together
+
+Blocks can be linked in any way the programmer desires. The only restriction is matching the producing and consuming models of each block. For instance, a block that produces a model of type `TypeOne` can only be linked with a block that consumes `TypeOne`. 
+
+#### Blocks that produce data
+* Producer
+* Transformer
+* Batcher
+* Waiter
+
+#### Blocks that consume data
+* Transformer
+* Batcher
+* Waiter
+* Consumer
+
+Assuming we have a transformer that consumes a `TConsumed` type object and produces a `TTransformed` type object, we can only link it with a block that consumes a `TTransformed` type object.  
+  
+Using the blocks created in the example above, we can link them like so:
+
+```csharp
+producer.LinkTo(transformer);
+transformer.LinkTo(waiter);
+waiter.LinkTo(consumer);
+```
+
+**Note: A batcher can only be linked with a block that consumes a `List<T>` where `T` is the type that is batched by the batcher.**
+
+**Additionally, blocks can be linked to multiple blocks.**
