@@ -415,3 +415,16 @@ waiter.LinkTo(consumer);
 **Note: A batcher can only be linked with a block that consumes a `List<T>` where `T` is the type that is batched by the batcher.**
 
 **Additionally, blocks can be linked to multiple blocks.**
+
+#### Linking blocks with condition
+Block linking can be filtered by using the second parameter of the `LinkTo()` method. The second parameter of `LinkTo()` is a `Func<T, bool>` delegate that takes a `T` parameter and returns `true` when linking should be done and `false` when linking shouldn't.  
+
+For example:
+
+```csharp
+producer.LinkTo(transformer, x => x.Message == "Hello world!");
+```
+This will ensure that that producer will only send models to the transformer when the `string Message { get; set; }` property has a value 
+equal to `"Hello world!"`. Use the filter parameter when you want to always filter out specific models from being sent. 
+Filtering can also be done inside the block's main action but certain blocks, such as the waiter block or the batcher do 
+not have actions to determine what they do when they run.
