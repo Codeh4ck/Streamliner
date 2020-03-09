@@ -20,7 +20,6 @@ namespace Streamliner.Blocks
         {
             T item = Receiver.Receive(token);
             Router.DelayedRoute(item, item.WaitFor);
-            Receiver.Accept(item, token);
         }
     }
 }
