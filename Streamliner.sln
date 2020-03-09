@@ -12,7 +12,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleFlow", "ExampleFlow\ExampleFlow.csproj", "{833832B8-CCE4-4949-88AA-1DA06688D95C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExampleFlow", "ExampleFlow\ExampleFlow.csproj", "{833832B8-CCE4-4949-88AA-1DA06688D95C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleWorkflow", "ExampleWorkflow\ExampleWorkflow.csproj", "{3F1691B5-D096-417F-97FC-36BDBF6D174C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,6 +30,10 @@ Global
 		{833832B8-CCE4-4949-88AA-1DA06688D95C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{833832B8-CCE4-4949-88AA-1DA06688D95C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{833832B8-CCE4-4949-88AA-1DA06688D95C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F1691B5-D096-417F-97FC-36BDBF6D174C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F1691B5-D096-417F-97FC-36BDBF6D174C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F1691B5-D096-417F-97FC-36BDBF6D174C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F1691B5-D096-417F-97FC-36BDBF6D174C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
