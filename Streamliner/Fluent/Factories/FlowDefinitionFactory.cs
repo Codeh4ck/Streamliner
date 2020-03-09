@@ -1,4 +1,5 @@
 ﻿using Streamliner.Definitions.Metadata.Flow;
+using Streamliner.Fluent.Flow;
 
 namespace Streamliner.Fluent.Factories
 {

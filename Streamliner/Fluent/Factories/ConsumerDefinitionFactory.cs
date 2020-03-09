@@ -1,4 +1,6 @@
-﻿namespace Streamliner.Fluent.Factories
+﻿using Streamliner.Fluent.Consumer;
+
+namespace Streamliner.Fluent.Factories
 {
     public static class ConsumerDefinitionFactory
     {
