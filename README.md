@@ -2,7 +2,7 @@
 A .NET core library that enables the creation of code workflows that isolate responsibilities. 
 Streamliner creates a directed acyclic graph which represents the workflow in separate, single responsibility blocks.
 
-### Check the [examples](../examples/Streamliner) branch for example projects.
+### Check the [examples](../examples) branch for example projects.
 
 # Purpose
 
