@@ -2,8 +2,8 @@
 {
     public class FlowConsumerSettings : FlowTargetSettings
     {
-        public FlowConsumerSettings(int capacity, object context = null, bool enableAuditing = false, uint parallelismInstances = 1) 
-            : base(capacity, context, enableAuditing, parallelismInstances)
+        public FlowConsumerSettings(int capacity, object context = null, uint parallelismInstances = 1) 
+            : base(capacity, context, parallelismInstances)
         {  }
     }
 }

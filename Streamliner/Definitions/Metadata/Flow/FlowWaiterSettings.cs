@@ -6,7 +6,7 @@ namespace Streamliner.Definitions.Metadata.Flow
     {
         public ProducerType ProducerType { get; }
 
-        public FlowWaiterSettings(ProducerType producerType, int capacity, object context = null, bool enableAuditing = false, uint parallelismInstances = 1) : base(capacity, context, enableAuditing, parallelismInstances)
+        public FlowWaiterSettings(ProducerType producerType, int capacity, object context = null, uint parallelismInstances = 1) : base(capacity, context, parallelismInstances)
         {
             ProducerType = producerType;
         }
