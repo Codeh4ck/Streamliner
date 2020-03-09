@@ -2,6 +2,8 @@
 A .NET core library that enables the creation of code workflows that isolate responsibilities. 
 Streamliner creates a directed acyclic graph which represents the workflow in separate, single responsibility blocks.
 
+**Check the examples branch for example projects.**
+
 # Purpose
 
 Streamliner is a library that enables creation of workflows in the form of Producer/Consumer model. It has been
@@ -50,7 +52,7 @@ Guid flowId = Guid.NewGuid();
 string name = "Test Flow";
 ```
 
-Optionally, inherit and implement the `ILogger` interface to enable logging. You can also inherit and implement the `IAuditLogger` interface to enable
+Optionally, inherit and implement the `ILogger` interface to enable logging. You can also inherit and implement the `IFlowAuditLogger` interface to enable
 audit logging, such as receiving notifications about a block's status, if it's starting, started etc. A block will also emit a ping every 30 seconds
 to notify the programmer that it is running.
 
@@ -492,7 +494,7 @@ Define the flow engine with the following statement:
 ```csharp
  FlowEngine engine = new FlowEngine(factory);
 ```
-Additionally, if you have inherited and implemented either or both the `IAuditLogger` and `ILogger` interfaces, you can pass their instances using the `AuditLogger` and `Logger` properties as follows:
+Additionally, if you have inherited and implemented either or both the `IFlowAuditLogger` and `ILogger` interfaces, you can pass their instances using the `AuditLogger` and `Logger` properties as follows:
 
 ```csharp
  FlowEngine engine = new FlowEngine(factory) { AuditLogger = auditLogger, Logger = logger };
