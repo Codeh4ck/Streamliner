@@ -1,4 +1,5 @@
 ﻿using Streamliner.Definitions.Metadata.Blocks;
+using Streamliner.Fluent.Batcher;
 
 namespace Streamliner.Fluent.Factories
 {
