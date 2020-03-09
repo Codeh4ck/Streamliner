@@ -9,19 +9,19 @@ namespace Streamliner.Core.Links.Local
 {
     internal class LocalBlockLink<T> : BlockLinkBase<T>
     {
-        private readonly BlockingCollection<T> _transport;
+        private readonly BlockingCollection<T> _buffer;
 
-        public LocalBlockLink(BlockingCollection<T> transport, ISourceBlock<T> sourceBlock, ITargetBlock<T> targetBlock,
+        public LocalBlockLink(BlockingCollection<T> buffer, ISourceBlock<T> sourceBlock, ITargetBlock<T> targetBlock,
             FlowLinkDefinition<T> linkDefinition) 
             : base(sourceBlock, targetBlock, linkDefinition)
         {
-            if (transport == null) throw new ArgumentNullException(nameof(transport));
-            _transport = transport;
+            if (buffer == null) throw new ArgumentNullException(nameof(buffer));
+            _buffer = buffer;
         }
 
         protected override void Enqueue(T item, CancellationToken token = default(CancellationToken))
         {
-            _transport.Add(item, token);
+            _buffer.Add(item, token);
         }
 
         protected override void DelayedEnqueue(T item, TimeSpan delay, CancellationToken token = default(CancellationToken))

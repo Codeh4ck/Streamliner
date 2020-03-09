@@ -6,18 +6,16 @@ namespace Streamliner.Core.Links.Local
 {
     internal class LocalLinkReceiver<T> : IBlockLinkReceiver<T>
     {
-        private readonly BlockingCollection<T> _transport;
+        private readonly BlockingCollection<T> _buffer;
 
-        public LocalLinkReceiver(BlockingCollection<T> transport)
+        public LocalLinkReceiver(BlockingCollection<T> buffer)
         {
-            if (transport == null) throw new ArgumentNullException(nameof(transport));
-            _transport = transport;
+            if (buffer == null) throw new ArgumentNullException(nameof(buffer));
+            _buffer = buffer;
         }
         public T Receive(CancellationToken token = default(CancellationToken))
         {
-            return _transport.Take(token);
+            return _buffer.Take(token);
         }
-
-        public void Accept(T t, CancellationToken token = default(CancellationToken)) { }
     }
 }

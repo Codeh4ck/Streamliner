@@ -15,38 +15,39 @@ namespace Streamliner.Core.Links.Local
             return _instance ??= new LocalLinkFactory();
         }
 
-        private readonly Dictionary<Guid, object> _transports;
+        private readonly Dictionary<Guid, object> _buffers;
+
         public LocalLinkFactory()
         {
-            _transports = new Dictionary<Guid, object>();
+            _buffers = new Dictionary<Guid, object>();
         }
 
         public IBlockLink<T> CreateLink<T>(ISourceBlock<T> source, ITargetBlock<T> target, FlowLinkDefinition<T> linkDefinition)
         {
-            BlockingCollection<T> transport = CreateTransport(linkDefinition);
-            return new LocalBlockLink<T>(transport, source, target, linkDefinition);
+            BlockingCollection<T> buffer = CreateBuffer(linkDefinition);
+            return new LocalBlockLink<T>(buffer, source, target, linkDefinition);
         }
 
         public IBlockLinkReceiver<T> CreateReceiver<T>(FlowLinkDefinition<T> linkDefinition)
         {
-            BlockingCollection<T> transport = CreateTransport(linkDefinition);
-            return new LocalLinkReceiver<T>(transport);
+            BlockingCollection<T> buffer = CreateBuffer(linkDefinition);
+            return new LocalLinkReceiver<T>(buffer);
         }
 
-        private BlockingCollection<T> CreateTransport<T>(FlowLinkDefinition<T> linkDefinition)
+        private BlockingCollection<T> CreateBuffer<T>(FlowLinkDefinition<T> linkDefinition)
         {
             int capacity = linkDefinition.Target.Settings.Capacity;
             Guid id = linkDefinition.Target.BlockInfo.Id;
 
-            BlockingCollection<T> blockingCollection = null;
+            BlockingCollection<T> blockingCollection;
 
-            if (!_transports.TryGetValue(id, out object transport))
+            if (!_buffers.TryGetValue(id, out object buffer))
             {
                 blockingCollection = new BlockingCollection<T>(capacity);
-                _transports.Add(id, blockingCollection);
+                _buffers.Add(id, blockingCollection);
             }
             else
-                blockingCollection = (BlockingCollection<T>) transport;
+                blockingCollection = (BlockingCollection<T>) buffer;
 
             return blockingCollection;
         }
