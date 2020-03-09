@@ -2,7 +2,7 @@
 using Streamliner.Definitions;
 using Streamliner.Definitions.Metadata.Flow;
 
-namespace Streamliner.Fluent
+namespace Streamliner.Fluent.Flow
 {
     public class FluentFlowDefinition
     {

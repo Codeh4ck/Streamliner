@@ -1,7 +1,7 @@
 ﻿using Streamliner.Definitions.Metadata.Blocks;
 using Streamliner.Definitions.Metadata.Flow;
 
-namespace Streamliner.Fluent
+namespace Streamliner.Fluent.Producer
 {
     public class FluentProducerDefinitionThatProduces
     {

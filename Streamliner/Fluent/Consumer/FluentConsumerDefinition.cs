@@ -2,7 +2,7 @@
 using Streamliner.Definitions.Metadata.Blocks;
 using Streamliner.Definitions.Metadata.Flow;
 
-namespace Streamliner.Fluent
+namespace Streamliner.Fluent.Consumer
 {
     public class FluentConsumerDefinition
     {
