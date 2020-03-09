@@ -2,7 +2,7 @@
 A .NET core library that enables the creation of code workflows that isolate responsibilities. 
 Streamliner creates a directed acyclic graph which represents the workflow in separate, single responsibility blocks.
 
-**Check the examples branch for example projects.**
+### Check the [examples](https://github.com/Codeh4ck/Streamliner/tree/examples) branch for example projects.
 
 # Purpose
 
@@ -30,7 +30,7 @@ Streamliner supports a number of standard blocks. The blocks supported are liste
 Each block that produces data can either be a dispatcher or a broadcaster. A dispatcher will only send the produced data
 to one or more linked blocks conditionally. A broadcaster will broadcast the produced data to all underlying blocks no matter what.
 
-# How does Streamline work in short?
+# How does Streamliner work in short?
 
 The top level component of Streamliner is a the FlowEngine component. FlowEngine holds information about all FlowPlan instances. 
 FlowEngine can contain as many FlowPlans as the programmer desires. 
