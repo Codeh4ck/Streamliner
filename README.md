@@ -510,3 +510,29 @@ The ```definition``` parameter is the instance of ```FlowDefinition``` we have b
 A single FlowEngine can start as many flow plans as the programmer desires. It is advised to use separate 
 flow engines for flows that handle separate domain data. For instance, a user management service could use 
 a single flow engine to handle user registrations, password recoveries etc.
+
+# Contributing
+
+## Found an issue?
+
+Please report any issues you have found by [creating a new issue](https://github.com/Codeh4ck/Streamliner/issues). We will review the case and if it is indeed a problem with the code, I will try to fix it as soon as possible. I want to maintain a healthy and bug-free standard for our code. Additionally, if you have a solution ready for the issue please submit a pull request. 
+
+## Submitting pull requests
+
+Before submitting a pull request to the repository please ensure the following:
+
+* Your code follows the naming conventions [suggested by Microsoft](https://docs.microsoft.com/en-us/dotnet/standard/design-guidelines/naming-guidelines)
+* Your code works flawlessly, is fault tolerant and it does not break the library or aspects of it
+* Your code follows proper object oriented design principles. Use interfaces!
+
+Your code will be reviewed and if it is found suitable it will be merged. Please understand that the final decision always rests with me. By submitting a pull request you automatically agree that I hold the right to accept or deny a pull request based on my own criteria.
+
+## Contributor License Agreement
+
+By contributing your code to Streamliner you grant Nikolas Andreou a non-exclusive, irrevocable, worldwide, royalty-free, sublicenseable, transferable license under all of Your relevant intellectual property rights (including copyright, patent, and any other rights), to use, copy, prepare derivative works of, distribute and publicly perform and display the Contributions on any licensing terms, including without limitation: (a) open source licenses like the MIT license; and (b) binary, proprietary, or commercial licenses. Except for the licenses granted herein, You reserve all right, title, and interest in and to the Contribution.
+
+You confirm that you are able to grant us these rights. You represent that you are legally entitled to grant the above license. If your employer has rights to intellectual property that you create, You represent that you have received permission to make the contributions on behalf of that employer, or that your employer has waived such rights for the contributions.
+
+You represent that the contributions are your original works of authorship and to your knowledge, no other person claims, or has the right to claim, any right in any invention or patent related to the contributions. You also represent that you are not legally obligated, whether by entering into an agreement or otherwise, in any way that conflicts with the terms of this license.
+
+Nikolas Andreou acknowledges that, except as explicitly described in this agreement, any contribution which you provide is on an "as is" basis, without warranties or conditions of any kind, either express or implied, including, without limitation, any warranties or conditions of title, non-infringement, merchantability, or fitness for a particular purpose.
