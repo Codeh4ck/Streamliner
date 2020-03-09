@@ -428,3 +428,85 @@ This will ensure that that producer will only send models to the transformer whe
 equal to `"Hello world!"`. Use the filter parameter when you want to always filter out specific models from being sent. 
 Filtering can also be done inside the block's main action but certain blocks, such as the waiter block or the batcher do 
 not have actions to determine what they do when they run.
+
+# Final steps - bootstrapping your flow
+
+## Adding flow plan entrypoints
+The entrypoints of each block are producers. In the first step, we created our flow plan definition using the following code:
+
+```csharp
+FlowDefinition definition = FlowDefinitionFactory
+	.CreateWorkflow()
+	.WithIterations(10)
+	.WithServiceInfo(flowId, name);
+```
+
+After defining the producers, they must be added as entrypoints using the following statement:
+
+```csharp
+definition.AddEntrypoint(producer);
+```
+If you have multiple producers, they must be all added as entrypoints using the above statement.
+
+## Registering the block actions on the internal IoC container
+
+Streamliner has an internal IoC container which is called `DependencyRegistrar`. 
+Instantiate a new `DependencyRegistrar` and register the block actions as follows:
+
+```csharp
+DependencyRegistrar registrar = new DependencyRegistrar();
+registrar.Register<TestProducerAction>(() => new TestProducerAction());
+registrar.Register<TestTransformerAction>(() => new TestTransformerAction());
+registrar.Register<TestConsumerAction>(() => new TestConsumerAction());
+```
+Use the concrete type inside the generic parameter of the `Register<T>` method. 
+
+## Creating your flow engine and starting the flow plan
+
+#### Define the block action factory
+First, we need to instantiate an `IBlockActionFactory` instance. The block action factory provides the underlying engine a way to retrieve the block actions from an IoC container.
+
+Streamliner has a concrete block action factory which is derived from `IBlockActionFactory`.
+```BlockActionIoCFactory``` has a dependency on ```DependencyRegistrar```. If you wish to use
+your own IoC container, inherit  ```IBlockActionFactory``` and implement its methods (see below).
+
+```csharp 
+IBlockActionFactory actionFactory = new BlockActionIocFactory(registrar);
+```
+**You can take a look at the ```IBlockActionFactory``` interface [here](../master/Streamliner/Actions/IBlockActionFactory). Use each method of the interface to resolve the action from an IoC container and therefore, you can use any Ioc of your choice.**
+
+#### Define the flow plan factory
+
+Define the flow plan factory with the following statement:
+
+```cshasp
+ FlowPlanFactory factory = new FlowPlanFactory(actionFactory);
+```
+
+The flow plan factory generates instances of flow plans using `FlowDefinition` to determine their structure.
+
+#### Define the flow engine and start the flow plan
+
+Define the flow engine with the following statement:
+
+```csharp
+ FlowEngine engine = new FlowEngine(factory);
+```
+Additionally, if you have inherited and implemented either or both the `IAuditLogger` and `ILogger` interfaces, you can pass their instances using the `AuditLogger` and `Logger` properties as follows:
+
+```csharp
+ FlowEngine engine = new FlowEngine(factory) { AuditLogger = auditLogger, Logger = logger };
+```
+You do not need to implement both loggers. The flow engine can accept either both or one of the logging types.
+Generally, we use the audit logger to monitor each block individually and its status and the regular logger to log events using external services such as LogEntries or a file-based logger. 
+
+#### Start the flow plan
+To start a flow plan, use the following statement:
+
+```csharp
+engine.StartFlow(definition);
+```
+The ```definition``` parameter is the instance of ```FlowDefinition``` we have been constructing above. 
+A single FlowEngine can start as many flow plans as the programmer desires. It is advised to use separate 
+flow engines for flows that handle separate domain data. For instance, a user management service could use 
+a single flow engine to handle user registrations, password recoveries etc.
