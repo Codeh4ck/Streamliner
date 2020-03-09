@@ -10,7 +10,6 @@ namespace Streamliner.Fluent
 
         private int _maxBatchSize;
         private TimeSpan _maxBatchTimeout;
-        private bool _enableAuditing = false;
         private object _withContext = null;
         private int _capacity = 1;
         private uint _parallelismInstances = 1;
@@ -18,12 +17,6 @@ namespace Streamliner.Fluent
         internal FluentBatcherDefinition(ProducerType producerType)
         {
             _producerType = producerType;
-        }
-
-        public FluentBatcherDefinition EnableAuditing()
-        {
-            _enableAuditing = true;
-            return this;
         }
 
         public FluentBatcherDefinition WithContext(object settings)
@@ -60,7 +53,7 @@ namespace Streamliner.Fluent
         {
             return new FluentBatcherDefinitionThatBatches(new BlockInfo(id, name, BlockType.Producer),
                 new FlowBatcherSettings(_producerType, _maxBatchSize, _maxBatchTimeout, _capacity, _withContext,
-                    _enableAuditing, _parallelismInstances));
+                    _parallelismInstances));
         }
     }
 }

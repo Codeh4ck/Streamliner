@@ -7,7 +7,6 @@ namespace Streamliner.Fluent
     public class FluentWaiterDefinition
     {
         private readonly ProducerType _producerType;
-        private bool _enableAuditing = false;
         private object _withContext = null;
         private int _capacity = 1;
         private uint _parallelismInstances = 1;
@@ -15,12 +14,6 @@ namespace Streamliner.Fluent
         internal FluentWaiterDefinition(ProducerType producerType)
         {
             _producerType = producerType;
-        }
-
-        public FluentWaiterDefinition EnableAuditing()
-        {
-            _enableAuditing = true;
-            return this;
         }
 
         public FluentWaiterDefinition WithContext(object settings)
@@ -44,7 +37,7 @@ namespace Streamliner.Fluent
         public FluentWaiterDefinitionThatWaits WithServiceInfo(Guid id, string name)
         {
             return new FluentWaiterDefinitionThatWaits(new BlockInfo(id, name, BlockType.Producer),
-                new FlowWaiterSettings(_producerType, _capacity, _withContext, _enableAuditing, _parallelismInstances));
+                new FlowWaiterSettings(_producerType, _capacity, _withContext, _parallelismInstances));
         }
     }
 }

@@ -42,7 +42,6 @@ namespace Streamliner.Blocks
         protected override void ProcessItem(CancellationToken token = default(CancellationToken))
         {
             T item = Receiver.Receive();
-            Receiver.Accept(item, token);
             lock (_syncRoot)
             {
                 _toggled = true;    

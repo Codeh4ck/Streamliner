@@ -23,7 +23,6 @@ namespace Streamliner.Blocks
         {
             T item = Receiver.Receive(token);
             _action.Consume(item, token);
-            Receiver.Accept(item, token);
         }
 
         protected override void OnStart(object context = null)

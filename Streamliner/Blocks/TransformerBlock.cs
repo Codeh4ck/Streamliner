@@ -28,7 +28,6 @@ namespace Streamliner.Blocks
                 return;
 
             Router.Route(model);
-            Receiver.Accept(tin, token);
         }
 
         protected override void OnStart(object context = null)
