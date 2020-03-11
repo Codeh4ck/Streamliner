@@ -8,6 +8,10 @@
     <Copyright>Copyright ©2020 Nikolas Andreou. All rights reserved.</Copyright>
     <RepositoryUrl>https://github.com/Codeh4ck/Streamliner</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageProjectUrl>https://github.com/Codeh4ck/Streamliner</PackageProjectUrl>
+    <PackageReleaseNotes>Deploying package to NuGet</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
