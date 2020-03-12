@@ -23,7 +23,7 @@ namespace ExampleFlow
 
             FlowDefinition definition = FlowDefinitionFactory
                 .CreateStreamflow()
-                .WithServiceInfo(flowId, flowName);
+                .WithFlowInfo(flowId, flowName);
             #endregion
 
             #region Constructing the blocks
@@ -33,7 +33,7 @@ namespace ExampleFlow
             var producer = ProducerDefinitionFactory
                 .CreateDispatcher()
                 .WithParallelismInstances(1)
-                .WithServiceInfo(producerId, producerName)
+                .WithBlockInfo(producerId, producerName)
                 .ThatProduces<UserRegistrationRequest>()
                 .WithAction<ProduceUserRegistrationRequestAction>();
 
@@ -44,7 +44,7 @@ namespace ExampleFlow
                 .CreateDispatcher()
                 .WithParallelismInstances(1)
                 .WithCapacity(1)
-                .WithServiceInfo(transformerId, transformerName)
+                .WithBlockInfo(transformerId, transformerName)
                 .ThatTransforms<UserRegistrationRequest, UserRegistrationModel>()
                 .WithAction<TransformRegistrationRequestToModelAction>();
 
@@ -57,7 +57,7 @@ namespace ExampleFlow
                 .WithCapacity(1)
                 .WithMaxBatchSize(10)
                 .WithMaxBatchTimeout(TimeSpan.FromMinutes(1))
-                .WithServiceInfo(batcherId, batcherName)
+                .WithBlockInfo(batcherId, batcherName)
                 .ThatBatches<UserRegistrationModel>();
 
             Guid consumerId = Guid.NewGuid();
@@ -70,7 +70,7 @@ namespace ExampleFlow
                 .CreateConsumer()
                 .WithParallelismInstances(1)
                 .WithCapacity(1)
-                .WithServiceInfo(consumerId, consumerName)
+                .WithBlockInfo(consumerId, consumerName)
                 .ThatConsumes<List<UserRegistrationModel>>()
                 .WithAction<ConsumeRegistrationModelListAction>();
             #endregion

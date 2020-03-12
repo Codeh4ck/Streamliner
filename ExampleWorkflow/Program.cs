@@ -19,7 +19,7 @@ namespace ExampleWorkflow
             FlowDefinition definition = FlowDefinitionFactory
                 .CreateWorkflow()
                 .WithIterations(10)
-                .WithServiceInfo(flowId, flowName);
+                .WithFlowInfo(flowId, flowName);
 
             Guid producerId = Guid.NewGuid();
             string producerName = "Sample Workflow Producer";
@@ -27,7 +27,7 @@ namespace ExampleWorkflow
             var producer = ProducerDefinitionFactory
                 .CreateDispatcher()
                 .WithParallelismInstances(1)
-                .WithServiceInfo(producerId, producerName)
+                .WithBlockInfo(producerId, producerName)
                 .ThatProduces<ProducerModel>()
                 .WithAction<SampleProducerAction>();
 
@@ -38,7 +38,7 @@ namespace ExampleWorkflow
                 .CreateDispatcher()
                 .WithParallelismInstances(1)
                 .WithCapacity(1)
-                .WithServiceInfo(transformerId, transformerName)
+                .WithBlockInfo(transformerId, transformerName)
                 .ThatTransforms<ProducerModel, TransformerModel>()
                 .WithAction<SampleTransformerAction>();
 
@@ -49,7 +49,7 @@ namespace ExampleWorkflow
                 .CreateDispatcher()
                 .WithParallelismInstances(1)
                 .WithCapacity(1)
-                .WithServiceInfo(waiterId, waiterName)
+                .WithBlockInfo(waiterId, waiterName)
                 .ThatWaits<TransformerModel>();
 
             Guid consumerId = Guid.NewGuid();
@@ -59,7 +59,7 @@ namespace ExampleWorkflow
                 .CreateConsumer()
                 .WithParallelismInstances(1)
                 .WithCapacity(1)
-                .WithServiceInfo(consumerId, consumerName)
+                .WithBlockInfo(consumerId, consumerName)
                 .ThatConsumes<TransformerModel>()
                 .WithAction<SampleConsumerAction>();
 
