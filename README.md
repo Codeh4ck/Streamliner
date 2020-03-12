@@ -10,6 +10,16 @@ Streamliner is a library that enables creation of workflows in the form of Produ
 inspired by Microsoft's TPL DataFlow library. Streamliner was created with abstraction in mind, with blocks that support 
 any given model.
 
+# Installation
+
+To install Streamliner in your project,  run the following command in your NuGet package manager console:
+
+```powershell
+PM> Install-Package Streamliner -Version 1.0.0
+```
+
+Alternatively, you can clone the repository, compile the source code and add Streamliner.dll to your references.
+
 # What kind of flows does Streamliner support?
 
 Currently Streamliner supports two kinds of flows:
