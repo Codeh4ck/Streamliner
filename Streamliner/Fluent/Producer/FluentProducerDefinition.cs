@@ -27,7 +27,7 @@ namespace Streamliner.Fluent.Producer
             return this;
         }
 
-        public FluentProducerDefinitionThatProduces WithServiceInfo(Guid id, string name)
+        public FluentProducerDefinitionThatProduces WithBlockInfo(Guid id, string name)
         {
             return new FluentProducerDefinitionThatProduces(new BlockInfo(id, name, BlockType.Producer),
                 new FlowProducerSettings(_producerType, _withContext, _parallelismInstances));

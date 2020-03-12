@@ -34,7 +34,7 @@ namespace Streamliner.Fluent.Waiter
             return this;
         }
 
-        public FluentWaiterDefinitionThatWaits WithServiceInfo(Guid id, string name)
+        public FluentWaiterDefinitionThatWaits WithBlockInfo(Guid id, string name)
         {
             return new FluentWaiterDefinitionThatWaits(new BlockInfo(id, name, BlockType.Producer),
                 new FlowWaiterSettings(_producerType, _capacity, _withContext, _parallelismInstances));
