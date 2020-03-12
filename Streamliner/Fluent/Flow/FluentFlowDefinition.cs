@@ -20,7 +20,7 @@ namespace Streamliner.Fluent.Flow
             return this;
         }
 
-        public FlowDefinition WithServiceInfo(Guid id, string name)
+        public FlowDefinition WithFlowInfo(Guid id, string name)
         {
             return new FlowDefinition(new FlowServiceInfo(id, name), _flowType)
             {
