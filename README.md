@@ -18,7 +18,7 @@ To install Streamliner in your project,  run the following command in your NuGet
 PM> Install-Package Streamliner -Version 1.0.0
 ```
 
-Alternatively, you can clone the repository, compile the source code and add Streamliner.dll to your references.
+Alternatively, you can clone the repository, compile the source code and add ```Streamliner.dll``` to your references.
 
 # What kind of flows does Streamliner support?
 
