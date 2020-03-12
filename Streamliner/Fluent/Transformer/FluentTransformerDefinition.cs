@@ -34,7 +34,7 @@ namespace Streamliner.Fluent.Transformer
             return this;
         }
 
-        public FluentTransformerDefinitionThatTransforms WithServiceInfo(Guid id, string name)
+        public FluentTransformerDefinitionThatTransforms WithBlockInfo(Guid id, string name)
         {
             return new FluentTransformerDefinitionThatTransforms(new BlockInfo(id, name, BlockType.Producer),
                 new FlowTransformerSettings(_producerType, _capacity, _withContext, _parallelismInstances));

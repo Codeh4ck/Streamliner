@@ -30,7 +30,7 @@ namespace Streamliner.Fluent.Consumer
             return this;
         }
 
-        public FluentConsumerDefinitionThatConsumes WithServiceInfo(Guid id, string name)
+        public FluentConsumerDefinitionThatConsumes WithBlockInfo(Guid id, string name)
         {
             return new FluentConsumerDefinitionThatConsumes(new BlockInfo(id, name, BlockType.Producer),
                 new FlowConsumerSettings(_capacity, _withContext, _parallelismInstances));

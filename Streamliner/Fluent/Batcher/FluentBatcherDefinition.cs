@@ -49,7 +49,7 @@ namespace Streamliner.Fluent.Batcher
             return this;
         }
 
-        public FluentBatcherDefinitionThatBatches WithServiceInfo(Guid id, string name)
+        public FluentBatcherDefinitionThatBatches WithBlockInfo(Guid id, string name)
         {
             return new FluentBatcherDefinitionThatBatches(new BlockInfo(id, name, BlockType.Producer),
                 new FlowBatcherSettings(_producerType, _maxBatchSize, _maxBatchTimeout, _capacity, _withContext,

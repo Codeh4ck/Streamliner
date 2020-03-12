@@ -73,7 +73,7 @@ Instantiate a `FlowDefinition` class by using the `FlowDefinitionFactory` fluent
 ```csharp
 FlowDefinition definition = FlowDefinitionFactory
         .CreateStreamflow()
-        .WithServiceInfo(flowId, name);
+        .WithFlowInfo(flowId, name);
 ```
 
 This will create a FlowDefinition that will run until cancellation is requested by the programmer. 
@@ -84,7 +84,7 @@ This will create a FlowDefinition that will run until cancellation is requested 
 FlowDefinition definition = FlowDefinitionFactory
         .CreateWorkflow()
         .WithIterations(10)
-        .WithServiceInfo(flowId, name);
+        .WithFlowInfo(flowId, name);
 ```
 
 This will create a FlowDefinition that will run for 10 iterations.
@@ -104,7 +104,7 @@ string producerName = "Test Producer";
 var producer = ProducerDefinitionFactory
     .CreateDispatcher()
     .WithParallelismInstances(1)
-    .WithServiceInfo(producerId, producerName)
+    .WithBlockInfo(producerId, producerName)
     .ThatProduces<HelloWorldModel>()
     .WithAction<TestProducerAction>();
 ```
@@ -122,7 +122,7 @@ In the example above, we're using `CreateDispatcher()` to create a dispatcher pr
 Method | Description
 ------------ | -------------
 `WithParallelismInstances(uint param)` | Dictates to the plan engine that param number of block instances should be created.
-`WithServiceInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging.
+`WithBlockInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging.
 `ThatProduces<T>()` | `T` is the output model type of the producer.
 `WithAction<T>()` | T is a class inherited from `ProducerBlockActionBase<T>`. The main action the producer will execute in each cycle.
 
@@ -184,7 +184,7 @@ string transformerName = "Test Transformer";
 var transformer = TransformerDefinitionFactory
     .CreateDispatcher()
     .WithParallelismInstances(1)
-    .WithServiceInfo(transformerId, transformerName)
+    .WithBlockInfo(transformerId, transformerName)
     .ThatTransforms<HelloWorldModel, NewHelloWorldModel>()
     .WithAction<TestTransformerAction>();
 ```
@@ -202,7 +202,7 @@ In the example above, we're using `CreateDispatcher()` to create a dispatcher tr
 Method | Description
 ------------ | -------------
 `WithParallelismInstances(uint param)` | Dictates to the plan engine that param number of block instances should be created.
-`WithServiceInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging.
+`WithBlockInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging.
 `ThatTransforms<TIn, TOut>()` | `TIn` is the input model type of the transformer. `TOut` is the output model type of the transformer. 
 `WithAction<T>` | T is a class inherited from `TransformerBlockActionBase<TIn, TOut>`. The main action the transformer will execute in each cycle.
 
@@ -269,7 +269,7 @@ var batcher = BatcherDefinitionFactory
     .WithCapacity(1)
     .WithMaxBatchSize(10)
     .WithMaxBatchTimeout(TimeSpan.FromSeconds(30))
-    .WithServiceInfo(batcherId, batcherName)
+    .WithBlockInfo(batcherId, batcherName)
     .ThatBatches<NewHelloWorldModel>();
 ```
 
@@ -286,7 +286,7 @@ In the example above, we're using `CreateDispatcher()` to create a dispatcher ba
 Method | Description
 ------------ | -------------
 `WithParallelismInstances(uint param)` | Dictates to the plan engine that param number of block instances should be created.
-`WithServiceInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging.
+`WithBlockInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging.
 `WithMaxBatchSize(int maxBatchSize)` | The amount of objects to be batched into a list.
 `WithMaxBatchTimeout(TimeSpan timeout)` | The amount of time to wait before sending the batch regardless. If the batch expires, a `List<T>` will be sent to the next blocks regardless.
 `ThatBatches<T>()` | `T` is the model type that will be batched. The output is always `List<T>`
@@ -311,7 +311,7 @@ var waiter = WaiterDefinitionFactory
     .CreateDispatcher()
     .WithParallelismInstances(1)
     .WithCapacity(1)
-    .WithServiceInfo(waiterId, waiterName)
+    .WithBlockInfo(waiterId, waiterName)
     .ThatWaits<WaitableModel>();
 ```
 
@@ -337,7 +337,7 @@ In the example above, we're using `CreateDispatcher()` to create a dispatcher ba
 Method | Description
 ------------ | -------------
 `WithParallelismInstances(uint param)` | Dictates to the plan engine that param number of block instances should be created.
-`WithServiceInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging.
+`WithBlockInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging.
 `ThatWaits<T>()` | `T` is the model type that will be waited. `T` must always implement `IWaitable`. See above for more details.
 
 **Notes:**  
@@ -358,7 +358,7 @@ string consumerName = "Test Consumer";
 var consumer = ConsumerDefinitionFactory
     .CreateConsumer()
     .WithParallelismInstances(1)
-    .WithServiceInfo(consumerId, consumerName)
+    .WithBlockInfo(consumerId, consumerName)
     .ThatConsumes<NewHelloWorldModel>()
     .WithAction<TestConsumerAction>();
 ```
@@ -369,7 +369,7 @@ Method | Description
 ------------ | -------------
 `CreateConsumer()` | Instructs the ConsumerDefinitionFactory to create a new consumer.
 `WithParallelismInstances(uint param)` | Dictates to the plan engine that param number of block instances should be created.
-`WithServiceInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging.
+`WithBlockInfo(Guid id, string name)` | Assigns an id and a name to the block. These data are used for identification and logging.
 `ThatConsumes<T>()` | `T` is the model type that will be consumed.
 `WithAction<T>` | T is a class inherited from `ConsumerBlockActionBase<T>`. The main action the consumer will execute in each cycle.
 
@@ -450,7 +450,7 @@ The entrypoints of each block are producers. In the first step, we created our f
 FlowDefinition definition = FlowDefinitionFactory
 	.CreateWorkflow()
 	.WithIterations(10)
-	.WithServiceInfo(flowId, name);
+	.WithFlowInfo(flowId, name);
 ```
 
 After defining the producers, they must be added as entrypoints using the following statement:
