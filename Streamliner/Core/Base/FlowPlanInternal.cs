@@ -34,7 +34,7 @@ namespace Streamliner.Core.Base
         public override void AddProducer<T>(FlowProducerDefinition<T> definition)
         {
             ProducerBlockActionBase<T> action = _actionFactory.CreateProducerAction<T>(definition.ActionType);
-            AddProducer<T>(definition, action);
+            AddProducer(definition, action);
         }
 
         protected void AddProducer<T>(FlowProducerDefinition<T> definition, ProducerBlockActionBase<T> action)
@@ -75,19 +75,17 @@ namespace Streamliner.Core.Base
                 definition.Settings.Type = _flowType;
                 definition.Settings.Iterations = _iterations;
 
-                if (action.Logger == null)
-                    action.Logger = Logger;
+                action.Logger ??= Logger;
 
                 IBlockLinkReceiver<T> receiver = link.LinkFactory.CreateReceiver(link);
                 consumer = new ConsumerBlock<T>(header, receiver, action, definition);
 
                 AssignLoggers(consumer);
 
-                // TODO: possibly comment
                 _blockContainer.AddBlock(consumer);
             }
 
-            Link<T>(parentBlock, consumer, link);
+            Link(parentBlock, consumer, link);
         }
 
         public override void AddTransformer<TIn, TOut>(Guid parentId, FlowTransformerDefinition<TIn, TOut> definition, FlowLinkDefinition<TIn> link)
@@ -106,8 +104,7 @@ namespace Streamliner.Core.Base
                 definition.Settings.Type = _flowType;
                 definition.Settings.Iterations = _iterations;
 
-                if (action.Logger == null)
-                    action.Logger = Logger;
+                action.Logger ??= Logger;
 
                 IBlockLinkReceiver<TIn> receiver = link.LinkFactory.CreateReceiver(link);
                 transformer = new TransformerBlock<TIn, TOut>(header, receiver, router, action, definition);
@@ -118,7 +115,7 @@ namespace Streamliner.Core.Base
 
             if (_blockContainer.TryGetSourceBlock(parentId, out SourceBlockBase<TIn> parentBlock))
             {
-                Link<TIn>(parentBlock, transformer, link);
+                Link(parentBlock, transformer, link);
                 return;
             }
 
@@ -149,6 +146,7 @@ namespace Streamliner.Core.Base
                 AssignLoggers(waiter);
                 _blockContainer.AddBlock(waiter);
             }
+
             Link(parentBlock, waiter, link);
         }
 
@@ -176,7 +174,8 @@ namespace Streamliner.Core.Base
                 AssignLoggers(batcher);
                 _blockContainer.AddBlock(batcher);
             }
-            Link<T>(parentBlock, batcher, link);
+
+            Link(parentBlock, batcher, link);
         }
 
         public override void Wait()
