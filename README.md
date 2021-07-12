@@ -1,5 +1,7 @@
+
 # Warning
-This branch contains the old .NET Core 3.1 version. If you want to use the latest version, which targets .NET 5, please refer to [the master branch](https://github.com/Codeh4ck/Streamliner/tree/master)
+![#f03c15](https://via.placeholder.com/15/f03c15/000000?text=+)  **This branch contains the old .NET Core 3.1 version. If you want to use the latest version, which targets .NET 5, please refer to [the master branch](https://github.com/Codeh4ck/Streamliner/tree/master)**
+
 
 # Streamliner
 A .NET core library that enables the creation of code workflows that isolate responsibilities. 
