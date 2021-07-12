@@ -4,17 +4,19 @@
     <TargetFramework>net5.0</TargetFramework>
     <Authors>Nikolas Andreou</Authors>
     <Product>Streamliner</Product>
-    <Description>A .NET core library that enables the creation of code workflows. Streamliner creates a directed acyclic graph which represents the workflow in separate, single responsibility blocks.</Description>
+    <Description>A .NET 5 library that enables the creation of code workflows. Streamliner creates a directed acyclic graph which represents the workflow in separate, single responsibility blocks.</Description>
     <Copyright>Copyright ©2020 Nikolas Andreou. All rights reserved.</Copyright>
     <RepositoryUrl>https://github.com/Codeh4ck/Streamliner</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/Codeh4ck/Streamliner</PackageProjectUrl>
-    <PackageReleaseNotes>Deploying package to NuGet</PackageReleaseNotes>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
-    <Version>1.1.0</Version>
+    <PackageReleaseNotes>Updated package to target .NET 5
+
+For the old .NET Core 3.1 version, please visit https://github.com/Codeh4ck/Streamliner/tree/dotnet-core-3.1</PackageReleaseNotes>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
+    <Version>1.2.0</Version>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 
