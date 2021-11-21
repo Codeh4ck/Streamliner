@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <Authors>Nikolas Andreou</Authors>
     <Product>Streamliner</Product>
     <Description>A .NET core library that enables the creation of code workflows. Streamliner creates a directed acyclic graph which represents the workflow in separate, single responsibility blocks.</Description>
