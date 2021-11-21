@@ -27,22 +27,22 @@ namespace Streamliner.Core
 
         internal bool TryGetSourceBlock<T>(Guid id, out SourceBlockBase<T> block)
         {
-            return TryGetBlock<SourceBlockBase<T>>(id, out block);
+            return TryGetBlock(id, out block);
         }
 
         internal bool TryGetProducer<T>(Guid id, out ProducerBlock<T> block)
         {
-            return TryGetBlock<ProducerBlock<T>>(id, out block);
+            return TryGetBlock(id, out block);
         }
 
         internal bool TryGetConsumer<T>(Guid id, out ConsumerBlock<T> block)
         {
-            return TryGetBlock<ConsumerBlock<T>>(id, out block);
+            return TryGetBlock(id, out block);
         }
 
         internal bool TryGetTransformer<TIn, TOut>(Guid id, out TransformerBlock<TIn, TOut> block)
         {
-            return TryGetBlock<TransformerBlock<TIn, TOut>>(id, out block);
+            return TryGetBlock(id, out block);
         }
 
         internal void AddBlock(BlockBase block)

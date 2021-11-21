@@ -25,7 +25,7 @@ namespace Streamliner.Definitions
 
         public void GenerateFlowPlanItem(IFlowSourceDefinition<T> parent, IFlowPlan plan, FlowLinkDefinition<T> link)
         {
-            plan.AddConsumer<T>(parent.BlockInfo.Id, this, link);
+            plan.AddConsumer(parent.BlockInfo.Id, this, link);
         }
     }
 }

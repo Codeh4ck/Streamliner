@@ -20,6 +20,7 @@ namespace Streamliner.Core.Routing
                 return;
             }
 
+            // We need a round-robin approach here to ensure all blocks get queued in a timely manner
             for (int x = _startIndex; x < Links.Count + _startIndex; x++)
             {
                 if (Links[x % Links.Count].TryEnqueue(item))
@@ -38,6 +39,7 @@ namespace Streamliner.Core.Routing
                 return;
             }
 
+            // We need a round-robin approach here to ensure all blocks get queued in a timely manner
             for (int x = _startIndex; x < Links.Count + _startIndex; x++)
             {
                 if (Links[x % Links.Count].TryDelayedEnqueue(item, delay))
