@@ -1,5 +1,5 @@
 # Streamliner
-A .NET 5 library that enables the creation of code workflows that isolate responsibilities. 
+A .NET 6 library that enables the creation of code workflows that isolate responsibilities. 
 Streamliner creates a directed acyclic graph which represents the workflow in separate, single responsibility blocks.
 
 For the .NET Core 3.1 version, please refer to the [respectful branch](https://github.com/Codeh4ck/Streamliner/tree/dotnet-core-3.1).
