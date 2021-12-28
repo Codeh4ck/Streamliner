@@ -4,7 +4,8 @@ namespace Streamliner.Core.Utilities
 {
     public abstract class Runnable : IRunnable, IDisposable
     {
-        public bool IsRunning { get; set; }
+        public bool IsRunning => _status == RunnableStatus.Running;
+
         private RunnableStatus _status = RunnableStatus.Stopped;
 
         protected abstract void OnStart(object context = null);

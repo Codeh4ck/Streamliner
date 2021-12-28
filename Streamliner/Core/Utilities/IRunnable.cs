@@ -5,6 +5,6 @@
         void Start(object context = null);
         void Stop();
 
-        bool IsRunning { get; set; }
+        bool IsRunning { get; }
     }
 }
