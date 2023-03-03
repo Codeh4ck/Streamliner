@@ -1,9 +1,8 @@
 ﻿using System.Threading;
 
-namespace Streamliner.Core.Links
+namespace Streamliner.Core.Links;
+
+public interface IBlockLinkReceiver<T>
 {
-    public interface IBlockLinkReceiver<T>
-    {
-        T Receive(CancellationToken token = default(CancellationToken));
-    }
+    T Receive(CancellationToken token = default);
 }

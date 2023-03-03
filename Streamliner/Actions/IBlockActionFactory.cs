@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace Streamliner.Actions
+namespace Streamliner.Actions;
+
+public interface IBlockActionFactory
 {
-    public interface IBlockActionFactory
-    {
-        ProducerBlockActionBase<T> CreateProducerAction<T>(Type type);
-        TransformerBlockActionBase<TIn, TOut> CreateTransformerAction<TIn, TOut>(Type type);
-        ConsumerBlockActionBase<TOut> CreateConsumerAction<TOut>(Type type);
-    }
+    ProducerBlockActionBase<T> CreateProducerAction<T>(Type type);
+    TransformerBlockActionBase<TIn, TOut> CreateTransformerAction<TIn, TOut>(Type type);
+    ConsumerBlockActionBase<TOut> CreateConsumerAction<TOut>(Type type);
 }

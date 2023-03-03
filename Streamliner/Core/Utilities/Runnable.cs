@@ -1,63 +1,56 @@
 ﻿using System;
 
-namespace Streamliner.Core.Utilities
+namespace Streamliner.Core.Utilities;
+
+public abstract class Runnable : IRunnable, IDisposable
 {
-    public abstract class Runnable : IRunnable, IDisposable
+    public bool IsRunning => _status == RunnableStatus.Running;
+
+    private RunnableStatus _status = RunnableStatus.Stopped;
+
+    protected abstract void OnStart(object context = null);
+    protected abstract void OnStop();
+
+    public void Start(object context = null)
     {
-        public bool IsRunning => _status == RunnableStatus.Running;
+        if (_status == RunnableStatus.Running) return;
 
-        private RunnableStatus _status = RunnableStatus.Stopped;
-
-        protected abstract void OnStart(object context = null);
-        protected abstract void OnStop();
-
-        public void Start(object context = null)
+        try
         {
-            if (_status == RunnableStatus.Running) return;
+            _status = RunnableStatus.Running;
 
-            try
-            {
-                _status = RunnableStatus.Running;
-                lock (this)
-                {
-                    OnStart(context);
-                }
-            }
-            catch (Exception)
-            {
-                Stop();
-                throw;
-            }
+            lock (this)
+                OnStart(context);
         }
-
-        public void Stop()
-        {
-            if (_status == RunnableStatus.Stopped) return;
-
-            try
-            {
-                _status = RunnableStatus.Stopping;
-
-                lock (this)
-                {
-                    OnStop();
-                }
-            }
-            finally
-            {
-                _status = RunnableStatus.Stopped;
-            }
-        }
-
-        public void Dispose(bool disposing)
+        catch (Exception)
         {
             Stop();
+            throw;
         }
+    }
 
-        public void Dispose()
+    public void Stop()
+    {
+        if (_status == RunnableStatus.Stopped) return;
+
+        try
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            _status = RunnableStatus.Stopping;
+
+            lock (this)
+                OnStop();
         }
+        finally
+        {
+            _status = RunnableStatus.Stopped;
+        }
+    }
+
+    public void Dispose(bool disposing) => Stop();
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
     }
 }

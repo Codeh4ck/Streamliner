@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace Streamliner.Actions
+namespace Streamliner.Actions;
+
+public class TriggerContext<T>
 {
-    public class TriggerContext<T>
-    {
-        public Guid? Id { get; set; }
-        public T Item { get; set; }
-    }
+    public Guid? Id { get; set; }
+    public T Item { get; set; }
 }

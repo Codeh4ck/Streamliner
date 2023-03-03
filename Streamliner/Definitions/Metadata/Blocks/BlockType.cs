@@ -1,11 +1,10 @@
-﻿namespace Streamliner.Definitions.Metadata.Blocks
+﻿namespace Streamliner.Definitions.Metadata.Blocks;
+
+public enum BlockType
 {
-    public enum BlockType
-    {
-        Producer,
-        Batcher,
-        Transformer,
-        Consumer,
-        Waiter
-    }
+    Producer,
+    Batcher,
+    Transformer,
+    Consumer,
+    Waiter
 }

@@ -1,9 +1,8 @@
 ﻿using Streamliner.Fluent.Consumer;
 
-namespace Streamliner.Fluent.Factories
+namespace Streamliner.Fluent.Factories;
+
+public static class ConsumerDefinitionFactory
 {
-    public static class ConsumerDefinitionFactory
-    {
-        public static FluentConsumerDefinition CreateConsumer() => new FluentConsumerDefinition();
-    }
+    public static FluentConsumerDefinition CreateConsumer() => new();
 }

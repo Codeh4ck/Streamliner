@@ -1,20 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <Authors>Nikolas Andreou</Authors>
     <Product>Streamliner</Product>
-    <Description>A .NET 6 library that enables the creation of code workflows. Streamliner creates a directed acyclic graph which represents the workflow in separate, single responsibility blocks running in parallel.</Description>
-    <Copyright>Copyright ©2021 Nikolas Andreou. All rights reserved.</Copyright>
+    <Description>A .NET 7 library that enables the creation of code workflows. Streamliner creates a directed acyclic graph which represents the workflow in separate, single responsibility blocks running in parallel.</Description>
+    <Copyright>Copyright ©2021-2023 Nikolas Andreou. All rights reserved.</Copyright>
     <RepositoryUrl>https://github.com/Codeh4ck/Streamliner</RepositoryUrl>
     <RepositoryType>Git</RepositoryType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageProjectUrl>https://github.com/Codeh4ck/Streamliner</PackageProjectUrl>
     <PackageReleaseNotes>Deploying package to NuGet</PackageReleaseNotes>
-    <AssemblyVersion>1.3.1</AssemblyVersion>
-    <FileVersion>1.3.0.0</FileVersion>
-    <Version>1.3.1</Version>
+    <AssemblyVersion>1.4</AssemblyVersion>
+    <FileVersion>1.4</FileVersion>
+    <Version>1.4</Version>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
 

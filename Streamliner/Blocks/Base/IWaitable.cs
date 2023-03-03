@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace Streamliner.Blocks.Base
+namespace Streamliner.Blocks.Base;
+
+public interface IWaitable
 {
-    public interface IWaitable
-    {
-        TimeSpan WaitFor { get; }
-    }
+    TimeSpan WaitFor { get; }
 }

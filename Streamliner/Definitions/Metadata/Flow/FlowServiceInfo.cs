@@ -1,10 +1,9 @@
 ﻿using System;
 using Streamliner.Core.Base;
 
-namespace Streamliner.Definitions.Metadata.Flow
+namespace Streamliner.Definitions.Metadata.Flow;
+
+public class FlowServiceInfo : ServiceInfo
 {
-    public class FlowServiceInfo : ServiceInfo
-    {
-        public FlowServiceInfo(Guid id, string name) : base(id, name) { }
-    }
+    public FlowServiceInfo(Guid id, string name) : base(id, name) { }
 }
