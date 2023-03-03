@@ -1,19 +1,18 @@
 ﻿using Streamliner.Core.Links;
 
-namespace Streamliner.Definitions
+namespace Streamliner.Definitions;
+
+public class FlowLinkResult
 {
-    public class FlowLinkResult
+    private FlowLinkDefinition LinkDefinition { get; }
+
+    internal FlowLinkResult(FlowLinkDefinition linkDefinition)
     {
-        private FlowLinkDefinition LinkDefinition { get; }
+        LinkDefinition = linkDefinition;
+    }
 
-        internal FlowLinkResult(FlowLinkDefinition linkDefinition)
-        {
-            LinkDefinition = linkDefinition;
-        }
-
-        public void WithLinkFactory(IBlockLinkFactory linkFactory)
-        {
-            LinkDefinition.LinkFactory = linkFactory;
-        }
+    public void WithLinkFactory(IBlockLinkFactory linkFactory)
+    {
+        LinkDefinition.LinkFactory = linkFactory;
     }
 }

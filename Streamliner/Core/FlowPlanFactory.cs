@@ -4,26 +4,22 @@ using Streamliner.Core.Base;
 using Streamliner.Definitions;
 using Streamliner.Definitions.Base;
 
-namespace Streamliner.Core
+namespace Streamliner.Core;
+
+public class FlowPlanFactory : FlowPlanFactoryBase
 {
-    public class FlowPlanFactory : FlowPlanFactoryBase
+    private readonly IBlockActionFactory _actionFactory;
+
+    public FlowPlanFactory(IBlockActionFactory actionFactory) => 
+        _actionFactory = actionFactory ?? throw new ArgumentNullException(nameof(actionFactory));
+
+    public override IFlowPlan GeneratePlan(FlowDefinition definition)
     {
-        private readonly IBlockActionFactory _actionFactory;
+        FlowPlanInternal internalPlan = new(_actionFactory, definition);
 
-        public FlowPlanFactory(IBlockActionFactory actionFactory)
-        {
-            if (actionFactory == null) throw new ArgumentNullException(nameof(actionFactory));
-            _actionFactory = actionFactory;
-        }
+        foreach(FlowProducerDefinitionBase entrypoint in definition.Entrypoints)
+            entrypoint.GeneratePlanItem(internalPlan);
 
-        public override IFlowPlan GeneratePlan(FlowDefinition definition)
-        {
-            FlowPlanInternal internalPlan = new FlowPlanInternal(_actionFactory, definition);
-
-            foreach(FlowProducerDefinitionBase entrypoint in definition.Entrypoints)
-                entrypoint.GeneratePlanItem(internalPlan);
-
-            return internalPlan;
-        }
+        return internalPlan;
     }
 }

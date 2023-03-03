@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Streamliner.Definitions.Base
+namespace Streamliner.Definitions.Base;
+
+public interface IFlowSourceDefinition<T> : IFlowDefinition
 {
-    public interface IFlowSourceDefinition<T> : IFlowDefinition
-    {
-        ICollection<FlowLinkDefinition<T>> OutboundLinks { get; }
-        FlowLinkResult LinkTo(IFlowTargetDefinition<T> target, Func<T, bool> filterFunc = null);
-    }
+    ICollection<FlowLinkDefinition<T>> OutboundLinks { get; }
+    FlowLinkResult LinkTo(IFlowTargetDefinition<T> target, Func<T, bool> filterFunc = null);
 }

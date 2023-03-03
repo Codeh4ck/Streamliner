@@ -1,8 +1,7 @@
-﻿namespace Streamliner.Definitions.Metadata.Blocks
+﻿namespace Streamliner.Definitions.Metadata.Blocks;
+
+public enum ProducerType
 {
-    public enum ProducerType
-    {
-        Dispatcher,
-        Broadcaster
-    }
+    Dispatcher,
+    Broadcaster
 }

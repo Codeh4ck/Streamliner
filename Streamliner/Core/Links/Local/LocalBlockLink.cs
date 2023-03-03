@@ -5,28 +5,19 @@ using System.Threading.Tasks;
 using Streamliner.Blocks.Base;
 using Streamliner.Definitions;
 
-namespace Streamliner.Core.Links.Local
+namespace Streamliner.Core.Links.Local;
+
+internal class LocalBlockLink<T> : BlockLinkBase<T>
 {
-    internal class LocalBlockLink<T> : BlockLinkBase<T>
-    {
-        private readonly BlockingCollection<T> _buffer;
+    private readonly BlockingCollection<T> _buffer;
 
-        public LocalBlockLink(BlockingCollection<T> buffer, ISourceBlock<T> sourceBlock, ITargetBlock<T> targetBlock,
-            FlowLinkDefinition<T> linkDefinition) 
-            : base(sourceBlock, targetBlock, linkDefinition)
-        {
-            if (buffer == null) throw new ArgumentNullException(nameof(buffer));
-            _buffer = buffer;
-        }
+    public LocalBlockLink(BlockingCollection<T> buffer, ISourceBlock<T> sourceBlock, ITargetBlock<T> targetBlock,
+        FlowLinkDefinition<T> linkDefinition) 
+        : base(sourceBlock, targetBlock, linkDefinition) =>
+        _buffer = buffer ?? throw new ArgumentNullException(nameof(buffer));
 
-        protected override void Enqueue(T item, CancellationToken token = default(CancellationToken))
-        {
-            _buffer.Add(item, token);
-        }
+    protected override void Enqueue(T item, CancellationToken token = default) => _buffer.Add(item, token);
 
-        protected override void DelayedEnqueue(T item, TimeSpan delay, CancellationToken token = default(CancellationToken))
-        {
-            Task.Delay(delay, token).ContinueWith(_ => Enqueue(item, token), token);
-        }
-    }
+    protected override void DelayedEnqueue(T item, TimeSpan delay, CancellationToken token = default) =>
+        Task.Delay(delay, token).ContinueWith(_ => Enqueue(item, token), token);
 }
