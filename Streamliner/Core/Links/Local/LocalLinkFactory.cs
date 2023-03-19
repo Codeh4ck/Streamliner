@@ -4,45 +4,46 @@ using System.Collections.Generic;
 using Streamliner.Blocks.Base;
 using Streamliner.Definitions;
 
-namespace Streamliner.Core.Links.Local;
-
-internal class LocalLinkFactory : IBlockLinkFactory
+namespace Streamliner.Core.Links.Local
 {
-    private static LocalLinkFactory _instance;
-
-    public static LocalLinkFactory GetInstance() => _instance ??= new();
-
-    private readonly Dictionary<Guid, object> _buffers;
-
-    public LocalLinkFactory() => _buffers = new();
-
-    public IBlockLink<T> CreateLink<T>(ISourceBlock<T> source, ITargetBlock<T> target, FlowLinkDefinition<T> linkDefinition)
+    internal class LocalLinkFactory : IBlockLinkFactory
     {
-        BlockingCollection<T> buffer = CreateBuffer(linkDefinition);
-        return new LocalBlockLink<T>(buffer, source, target, linkDefinition);
-    }
+        private static LocalLinkFactory _instance;
 
-    public IBlockLinkReceiver<T> CreateReceiver<T>(FlowLinkDefinition<T> linkDefinition)
-    {
-        BlockingCollection<T> buffer = CreateBuffer(linkDefinition);
-        return new LocalLinkReceiver<T>(buffer);
-    }
+        public static LocalLinkFactory GetInstance() => _instance = _instance ?? new LocalLinkFactory();
 
-    private BlockingCollection<T> CreateBuffer<T>(FlowLinkDefinition<T> linkDefinition)
-    {
-        int capacity = linkDefinition.Target.Settings.Capacity;
-        Guid id = linkDefinition.Target.BlockInfo.Id;
+        private readonly Dictionary<Guid, object> _buffers;
 
-        BlockingCollection<T> blockingCollection;
+        public LocalLinkFactory() => _buffers = new Dictionary<Guid, object>();
 
-        if (!_buffers.TryGetValue(id, out object buffer))
+        public IBlockLink<T> CreateLink<T>(ISourceBlock<T> source, ITargetBlock<T> target, FlowLinkDefinition<T> linkDefinition)
         {
-            blockingCollection = new(capacity);
-            _buffers.Add(id, blockingCollection);
+            BlockingCollection<T> buffer = CreateBuffer(linkDefinition);
+            return new LocalBlockLink<T>(buffer, source, target, linkDefinition);
         }
-        else
-            blockingCollection = (BlockingCollection<T>) buffer;
 
-        return blockingCollection;
+        public IBlockLinkReceiver<T> CreateReceiver<T>(FlowLinkDefinition<T> linkDefinition)
+        {
+            BlockingCollection<T> buffer = CreateBuffer(linkDefinition);
+            return new LocalLinkReceiver<T>(buffer);
+        }
+
+        private BlockingCollection<T> CreateBuffer<T>(FlowLinkDefinition<T> linkDefinition)
+        {
+            int capacity = linkDefinition.Target.Settings.Capacity;
+            Guid id = linkDefinition.Target.BlockInfo.Id;
+
+            BlockingCollection<T> blockingCollection;
+
+            if (!_buffers.TryGetValue(id, out object buffer))
+            {
+                blockingCollection = new BlockingCollection<T>(capacity);
+                _buffers.Add(id, blockingCollection);
+            }
+            else
+                blockingCollection = (BlockingCollection<T>) buffer;
+
+            return blockingCollection;
+        }
     }
 }

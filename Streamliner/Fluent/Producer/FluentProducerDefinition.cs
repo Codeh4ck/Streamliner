@@ -2,29 +2,30 @@
 using Streamliner.Definitions.Metadata.Blocks;
 using Streamliner.Definitions.Metadata.Flow;
 
-namespace Streamliner.Fluent.Producer;
-
-public class FluentProducerDefinition
+namespace Streamliner.Fluent.Producer
 {
-    private readonly ProducerType _producerType;
-    private object _withContext = null;
-    private uint _parallelismInstances = 1;
-
-    internal FluentProducerDefinition(ProducerType producerType) => _producerType = producerType;
-
-    public FluentProducerDefinition WithContext(object settings)
+    public class FluentProducerDefinition
     {
-        _withContext = settings;
-        return this;
-    }
+        private readonly ProducerType _producerType;
+        private object _withContext = null;
+        private uint _parallelismInstances = 1;
 
-    public FluentProducerDefinition WithParallelismInstances(uint instances)
-    {
-        _parallelismInstances = instances;
-        return this;
-    }
+        internal FluentProducerDefinition(ProducerType producerType) => _producerType = producerType;
 
-    public FluentProducerDefinitionThatProduces WithBlockInfo(Guid id, string name) =>
-        new(new(id, name, BlockType.Producer),
-            new(_producerType, _withContext, _parallelismInstances));
+        public FluentProducerDefinition WithContext(object settings)
+        {
+            _withContext = settings;
+            return this;
+        }
+
+        public FluentProducerDefinition WithParallelismInstances(uint instances)
+        {
+            _parallelismInstances = instances;
+            return this;
+        }
+
+        public FluentProducerDefinitionThatProduces WithBlockInfo(Guid id, string name) =>
+            new FluentProducerDefinitionThatProduces(new BlockInfo(id, name, BlockType.Producer),
+                new FlowProducerSettings(_producerType, _withContext, _parallelismInstances));
+    }
 }

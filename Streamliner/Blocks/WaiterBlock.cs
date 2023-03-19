@@ -5,18 +5,19 @@ using Streamliner.Core.Routing;
 using Streamliner.Definitions;
 using Streamliner.Definitions.Metadata.Blocks;
 
-namespace Streamliner.Blocks;
-
-public sealed class WaiterBlock<T> : SourceBlockBase<T>, ITargetBlock<T> where T : IWaitable
+namespace Streamliner.Blocks
 {
-    public IBlockLinkReceiver<T> Receiver { get; }
-    public WaiterBlock(BlockHeader header, IBlockLinkReceiver<T> receiver, LinkRouterBase<T> router, FlowWaiterDefinition<T> definition) 
-        : base(header, definition.Settings, router) =>
-        Receiver = receiver;
-
-    protected override void ProcessItem(CancellationToken token = default)
+    public sealed class WaiterBlock<T> : SourceBlockBase<T>, ITargetBlock<T> where T : IWaitable
     {
-        T item = Receiver.Receive(token);
-        Router.DelayedRoute(item, item.WaitFor);
+        public IBlockLinkReceiver<T> Receiver { get; }
+        public WaiterBlock(BlockHeader header, IBlockLinkReceiver<T> receiver, LinkRouterBase<T> router, FlowWaiterDefinition<T> definition) 
+            : base(header, definition.Settings, router) =>
+            Receiver = receiver;
+
+        protected override void ProcessItem(CancellationToken token = default)
+        {
+            T item = Receiver.Receive(token);
+            Router.DelayedRoute(item, item.WaitFor);
+        }
     }
 }

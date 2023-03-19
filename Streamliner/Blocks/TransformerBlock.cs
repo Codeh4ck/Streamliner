@@ -6,39 +6,40 @@ using Streamliner.Core.Routing;
 using Streamliner.Definitions;
 using Streamliner.Definitions.Metadata.Blocks;
 
-namespace Streamliner.Blocks;
-
-public sealed class TransformerBlock<TIn, TOut> : SourceBlockBase<TOut>, ITargetBlock<TIn>
+namespace Streamliner.Blocks
 {
-    public IBlockLinkReceiver<TIn> Receiver { get; }
-    private readonly TransformerBlockActionBase<TIn, TOut> _action;
-
-    public TransformerBlock(BlockHeader header, IBlockLinkReceiver<TIn> receiver, LinkRouterBase<TOut> router, 
-        TransformerBlockActionBase<TIn, TOut> action, FlowTransformerDefinition<TIn, TOut> definition) : base(header, definition.Settings, router)
+    public sealed class TransformerBlock<TIn, TOut> : SourceBlockBase<TOut>, ITargetBlock<TIn>
     {
-        Receiver = receiver;
-        _action = action;
-    }
+        public IBlockLinkReceiver<TIn> Receiver { get; }
+        private readonly TransformerBlockActionBase<TIn, TOut> _action;
 
-    protected override void ProcessItem(CancellationToken token = default)
-    {
-        TIn tin = Receiver.Receive(token);
+        public TransformerBlock(BlockHeader header, IBlockLinkReceiver<TIn> receiver, LinkRouterBase<TOut> router, 
+            TransformerBlockActionBase<TIn, TOut> action, FlowTransformerDefinition<TIn, TOut> definition) : base(header, definition.Settings, router)
+        {
+            Receiver = receiver;
+            _action = action;
+        }
+
+        protected override void ProcessItem(CancellationToken token = default)
+        {
+            TIn tin = Receiver.Receive(token);
             
-        if (!_action.TryTransform(tin, out TOut model, token))
-            return;
+            if (!_action.TryTransform(tin, out TOut model, token))
+                return;
 
-        Router.Route(model);
-    }
+            Router.Route(model);
+        }
 
-    protected override void OnStart(object context = null)
-    {
-        _action.Start(context);
-        base.OnStart(context);
-    }
+        protected override void OnStart(object context = null)
+        {
+            _action.Start(context);
+            base.OnStart(context);
+        }
 
-    protected override void OnStop()
-    {
-        _action.Stop();
-        base.OnStop();
+        protected override void OnStop()
+        {
+            _action.Stop();
+            base.OnStop();
+        }
     }
 }

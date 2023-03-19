@@ -3,19 +3,20 @@ using Streamliner.Definitions;
 using Streamliner.Definitions.Metadata.Blocks;
 using Streamliner.Definitions.Metadata.Flow;
 
-namespace Streamliner.Fluent.Producer;
-
-public class FluentProducerDefinitionWithAction<T>
+namespace Streamliner.Fluent.Producer
 {
-    private readonly BlockInfo _blockInfo;
-    private readonly FlowProducerSettings _producerSettings;
-
-    public FluentProducerDefinitionWithAction(BlockInfo blockInfo, FlowProducerSettings producerSettings)
+    public class FluentProducerDefinitionWithAction<T>
     {
-        _blockInfo = blockInfo;
-        _producerSettings = producerSettings;
-    }
+        private readonly BlockInfo _blockInfo;
+        private readonly FlowProducerSettings _producerSettings;
 
-    public FlowProducerDefinition<T> WithAction<TAction>() where TAction : ProducerBlockActionBase<T> =>
-        new(_blockInfo, _producerSettings, typeof(TAction));
+        public FluentProducerDefinitionWithAction(BlockInfo blockInfo, FlowProducerSettings producerSettings)
+        {
+            _blockInfo = blockInfo;
+            _producerSettings = producerSettings;
+        }
+
+        public FlowProducerDefinition<T> WithAction<TAction>() where TAction : ProducerBlockActionBase<T> =>
+            new FlowProducerDefinition<T>(_blockInfo, _producerSettings, typeof(TAction));
+    }
 }

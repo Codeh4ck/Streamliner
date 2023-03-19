@@ -1,10 +1,13 @@
 ﻿using Streamliner.Definitions.Metadata.Blocks;
 using Streamliner.Fluent.Transformer;
 
-namespace Streamliner.Fluent.Factories;
-
-public static class TransformerDefinitionFactory
+namespace Streamliner.Fluent.Factories
 {
-    public static FluentTransformerDefinition CreateDispatcher() => new(ProducerType.Dispatcher);
-    public static FluentTransformerDefinition CreateBroadcaster() => new(ProducerType.Broadcaster);
+    public static class TransformerDefinitionFactory
+    {
+        public static FluentTransformerDefinition CreateDispatcher() =>
+            new FluentTransformerDefinition(ProducerType.Dispatcher);
+        public static FluentTransformerDefinition CreateBroadcaster() =>
+            new FluentTransformerDefinition(ProducerType.Broadcaster);
+    }
 }

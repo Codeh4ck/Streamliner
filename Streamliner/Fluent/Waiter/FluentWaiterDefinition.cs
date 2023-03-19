@@ -2,36 +2,37 @@
 using Streamliner.Definitions.Metadata.Blocks;
 using Streamliner.Definitions.Metadata.Flow;
 
-namespace Streamliner.Fluent.Waiter;
-
-public class FluentWaiterDefinition
+namespace Streamliner.Fluent.Waiter
 {
-    private readonly ProducerType _producerType;
-    private object _withContext = null;
-    private int _capacity = 1;
-    private uint _parallelismInstances = 1;
-
-    internal FluentWaiterDefinition(ProducerType producerType) => _producerType = producerType;
-
-    public FluentWaiterDefinition WithContext(object settings)
+    public class FluentWaiterDefinition
     {
-        _withContext = settings;
-        return this;
-    }
+        private readonly ProducerType _producerType;
+        private object _withContext = null;
+        private int _capacity = 1;
+        private uint _parallelismInstances = 1;
 
-    public FluentWaiterDefinition WithParallelismInstances(uint instances)
-    {
-        _parallelismInstances = instances;
-        return this;
-    }
+        internal FluentWaiterDefinition(ProducerType producerType) => _producerType = producerType;
 
-    public FluentWaiterDefinition WithCapacity(int capacity)
-    {
-        _capacity = capacity;
-        return this;
-    }
+        public FluentWaiterDefinition WithContext(object settings)
+        {
+            _withContext = settings;
+            return this;
+        }
 
-    public FluentWaiterDefinitionThatWaits WithBlockInfo(Guid id, string name) =>
-        new(new(id, name, BlockType.Producer),
-            new(_producerType, _capacity, _withContext, _parallelismInstances));
+        public FluentWaiterDefinition WithParallelismInstances(uint instances)
+        {
+            _parallelismInstances = instances;
+            return this;
+        }
+
+        public FluentWaiterDefinition WithCapacity(int capacity)
+        {
+            _capacity = capacity;
+            return this;
+        }
+
+        public FluentWaiterDefinitionThatWaits WithBlockInfo(Guid id, string name) =>
+            new FluentWaiterDefinitionThatWaits(new BlockInfo(id, name, BlockType.Producer),
+                new FlowWaiterSettings(_producerType, _capacity, _withContext, _parallelismInstances));
+    }
 }

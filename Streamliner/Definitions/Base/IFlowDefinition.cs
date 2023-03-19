@@ -1,8 +1,9 @@
 ﻿using Streamliner.Definitions.Metadata.Blocks;
 
-namespace Streamliner.Definitions.Base;
-
-public interface IFlowDefinition
+namespace Streamliner.Definitions.Base
 {
-    BlockInfo BlockInfo { get; }
+    public interface IFlowDefinition
+    {
+        BlockInfo BlockInfo { get; }
+    }
 }
