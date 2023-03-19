@@ -2,12 +2,13 @@
 using Streamliner.Core.Base;
 using Streamliner.Definitions.Metadata.Flow;
 
-namespace Streamliner.Definitions.Base;
-
-public interface IFlowTargetDefinition<T> : IFlowDefinition
+namespace Streamliner.Definitions.Base
 {
-    FlowTargetSettings Settings { get; }
-    ICollection<FlowLinkDefinition> InboundLinks { get; }
-    void LinkFrom(FlowLinkDefinition<T> link);
-    void GenerateFlowPlanItem(IFlowSourceDefinition<T> parent, IFlowPlan plan, FlowLinkDefinition<T> link);
+    public interface IFlowTargetDefinition<T> : IFlowDefinition
+    {
+        FlowTargetSettings Settings { get; }
+        ICollection<FlowLinkDefinition> InboundLinks { get; }
+        void LinkFrom(FlowLinkDefinition<T> link);
+        void GenerateFlowPlanItem(IFlowSourceDefinition<T> parent, IFlowPlan plan, FlowLinkDefinition<T> link);
+    }
 }

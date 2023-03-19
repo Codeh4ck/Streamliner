@@ -5,48 +5,49 @@ using Streamliner.Core.Routing;
 using Streamliner.Definitions.Metadata.Blocks;
 using Streamliner.Definitions.Metadata.Flow;
 
-namespace Streamliner.Blocks;
-
-public abstract class SourceBlockBase<T> : BlockBase, ISourceBlock<T>
+namespace Streamliner.Blocks
 {
-    public LinkRouterBase<T> Router { get; }
-    public List<ITargetBlock<T>> Children { get; }
-
-    protected SourceBlockBase(BlockHeader header, FlowSettings settings, LinkRouterBase<T> router) : base(header, settings)
+    public abstract class SourceBlockBase<T> : BlockBase, ISourceBlock<T>
     {
-        Router = router;
-        Children = new();
-    }
+        public LinkRouterBase<T> Router { get; }
+        public List<ITargetBlock<T>> Children { get; }
 
-    public void Trigger(T item) => Router.Route(item);
+        protected SourceBlockBase(BlockHeader header, FlowSettings settings, LinkRouterBase<T> router) : base(header, settings)
+        {
+            Router = router;
+            Children = new List<ITargetBlock<T>>();
+        }
 
-    public void AddLink(IBlockLink<T> link)
-    {
-        Router.AddLink(link);
-        Children.Add(link.TargetBlock);
-    }
+        public void Trigger(T item) => Router.Route(item);
 
-    protected override void OnStart(object context = null)
-    {
-        foreach (ITargetBlock<T> target in Children)
-            target.Start(context);
+        public void AddLink(IBlockLink<T> link)
+        {
+            Router.AddLink(link);
+            Children.Add(link.TargetBlock);
+        }
 
-        base.OnStart(context);
-    }
+        protected override void OnStart(object context = null)
+        {
+            foreach (ITargetBlock<T> target in Children)
+                target.Start(context);
 
-    protected override void OnStop()
-    {
-        base.OnStop();
+            base.OnStart(context);
+        }
 
-        foreach(ITargetBlock<T> target in Children)
-            target.Stop();
-    }
+        protected override void OnStop()
+        {
+            base.OnStop();
 
-    public override void Wait()
-    {
-        foreach (ITargetBlock<T> target in Children)
-            target.Wait();
+            foreach(ITargetBlock<T> target in Children)
+                target.Stop();
+        }
 
-        base.Wait();
+        public override void Wait()
+        {
+            foreach (ITargetBlock<T> target in Children)
+                target.Wait();
+
+            base.Wait();
+        }
     }
 }

@@ -3,42 +3,43 @@ using System.Threading;
 using Streamliner.Blocks.Base;
 using Streamliner.Definitions;
 
-namespace Streamliner.Core.Links;
-
-internal abstract class BlockLinkBase<T> : IBlockLink<T>
+namespace Streamliner.Core.Links
 {
-    public ITargetBlock<T> TargetBlock { get; }
-    public ISourceBlock<T> SourceBlock { get; set; }
-    public Func<T, bool> FuncFilter { get; }
-
-    protected abstract void Enqueue(T item, CancellationToken token = default);
-    protected abstract void DelayedEnqueue(T item, TimeSpan delay, CancellationToken token = default);
-
-    protected BlockLinkBase(ISourceBlock<T> sourceBlock, ITargetBlock<T> targetBlock, FlowLinkDefinition<T> linkDefinition)
+    internal abstract class BlockLinkBase<T> : IBlockLink<T>
     {
-        FuncFilter = linkDefinition.FuncFilter;
-        SourceBlock = sourceBlock;
-        TargetBlock = targetBlock;
-    }
+        public ITargetBlock<T> TargetBlock { get; }
+        public ISourceBlock<T> SourceBlock { get; set; }
+        public Func<T, bool> FuncFilter { get; }
 
-    public virtual bool TryEnqueue(T item, CancellationToken token = default)
-    {
-        if (FuncFilter == null || FuncFilter(item))
+        protected abstract void Enqueue(T item, CancellationToken token = default);
+        protected abstract void DelayedEnqueue(T item, TimeSpan delay, CancellationToken token = default);
+
+        protected BlockLinkBase(ISourceBlock<T> sourceBlock, ITargetBlock<T> targetBlock, FlowLinkDefinition<T> linkDefinition)
         {
-            Enqueue(item, token);
-            return true;
+            FuncFilter = linkDefinition.FuncFilter;
+            SourceBlock = sourceBlock;
+            TargetBlock = targetBlock;
         }
 
-        return false;
-    }
-    public bool TryDelayedEnqueue(T item, TimeSpan delay, CancellationToken token = default)
-    {
-        if (FuncFilter == null || FuncFilter(item))
+        public virtual bool TryEnqueue(T item, CancellationToken token = default)
         {
-            DelayedEnqueue(item, delay, token);
-            return true;
-        }
+            if (FuncFilter == null || FuncFilter(item))
+            {
+                Enqueue(item, token);
+                return true;
+            }
 
-        return false;
+            return false;
+        }
+        public bool TryDelayedEnqueue(T item, TimeSpan delay, CancellationToken token = default)
+        {
+            if (FuncFilter == null || FuncFilter(item))
+            {
+                DelayedEnqueue(item, delay, token);
+                return true;
+            }
+
+            return false;
+        }
     }
 }

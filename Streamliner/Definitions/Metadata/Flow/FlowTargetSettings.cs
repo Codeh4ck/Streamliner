@@ -1,12 +1,13 @@
-﻿namespace Streamliner.Definitions.Metadata.Flow;
-
-public class FlowTargetSettings : FlowSettings
+﻿namespace Streamliner.Definitions.Metadata.Flow
 {
-    public FlowTargetSettings(int capacity, object context = null, uint parallelismInstances = 1) 
-        : base(context, parallelismInstances)
+    public class FlowTargetSettings : FlowSettings
     {
-        Capacity = capacity;
-    }
+        public FlowTargetSettings(int capacity, object context = null, uint parallelismInstances = 1) 
+            : base(context, parallelismInstances)
+        {
+            Capacity = capacity;
+        }
 
-    public int Capacity { get; }
+        public int Capacity { get; }
+    }
 }

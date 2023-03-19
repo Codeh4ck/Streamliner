@@ -1,8 +1,9 @@
 ﻿using Streamliner.Core.Links;
 
-namespace Streamliner.Blocks.Base;
-
-public interface ITargetBlock<T> : IBlock
+namespace Streamliner.Blocks.Base
 {
-    IBlockLinkReceiver<T> Receiver { get; }
+    public interface ITargetBlock<T> : IBlock
+    {
+        IBlockLinkReceiver<T> Receiver { get; }
+    }
 }

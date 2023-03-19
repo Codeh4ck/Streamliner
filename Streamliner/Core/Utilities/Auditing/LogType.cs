@@ -1,10 +1,11 @@
-﻿namespace Streamliner.Core.Utilities.Auditing;
-
-public enum LogType
+﻿namespace Streamliner.Core.Utilities.Auditing
 {
-    Info,
-    Error,
-    Warning,
-    Critical,
-    Other
+    public enum LogType
+    {
+        Info,
+        Error,
+        Warning,
+        Critical,
+        Other
+    }
 }

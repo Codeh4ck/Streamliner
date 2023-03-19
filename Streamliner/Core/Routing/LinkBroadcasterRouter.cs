@@ -1,19 +1,20 @@
 ﻿using System;
 using Streamliner.Core.Links;
 
-namespace Streamliner.Core.Routing;
-
-public class LinkBroadcasterRouter<T> : LinkRouterBase<T>
+namespace Streamliner.Core.Routing
 {
-    public override void Route(T item)
+    public class LinkBroadcasterRouter<T> : LinkRouterBase<T>
     {
-        foreach (IBlockLink<T> link in Links)
-            link.TryEnqueue(item);
-    }
+        public override void Route(T item)
+        {
+            foreach (IBlockLink<T> link in Links)
+                link.TryEnqueue(item);
+        }
 
-    public override void DelayedRoute(T item, TimeSpan delay)
-    {
-        foreach (IBlockLink<T> link in Links)
-            link.TryDelayedEnqueue(item, delay);
+        public override void DelayedRoute(T item, TimeSpan delay)
+        {
+            foreach (IBlockLink<T> link in Links)
+                link.TryDelayedEnqueue(item, delay);
+        }
     }
 }

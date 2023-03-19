@@ -1,8 +1,9 @@
 ﻿using System.Threading;
 
-namespace Streamliner.Actions;
-
-public abstract class ConsumerBlockActionBase<TIn> : BlockActionBase
+namespace Streamliner.Actions
 {
-    public abstract void Consume(TIn model, CancellationToken token = default);
+    public abstract class ConsumerBlockActionBase<TIn> : BlockActionBase
+    {
+        public abstract void Consume(TIn model, CancellationToken token = default);
+    }
 }

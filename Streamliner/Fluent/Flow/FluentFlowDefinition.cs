@@ -2,24 +2,25 @@
 using Streamliner.Definitions;
 using Streamliner.Definitions.Metadata.Flow;
 
-namespace Streamliner.Fluent.Flow;
-
-public class FluentFlowDefinition
+namespace Streamliner.Fluent.Flow
 {
-    private readonly FlowType _flowType;
-    private uint _iterations = 1;
-
-    internal FluentFlowDefinition(FlowType flowType) => _flowType = flowType;
-
-    public FluentFlowDefinition WithIterations(uint iterations)
+    public class FluentFlowDefinition
     {
-        _iterations = iterations;
-        return this;
-    }
+        private readonly FlowType _flowType;
+        private uint _iterations = 1;
 
-    public FlowDefinition WithFlowInfo(Guid id, string name) =>
-        new(new(id, name), _flowType)
+        internal FluentFlowDefinition(FlowType flowType) => _flowType = flowType;
+
+        public FluentFlowDefinition WithIterations(uint iterations)
         {
-            Iterations = _iterations,
-        };
+            _iterations = iterations;
+            return this;
+        }
+
+        public FlowDefinition WithFlowInfo(Guid id, string name) =>
+            new FlowDefinition(new FlowServiceInfo(id, name), _flowType)
+            {
+                Iterations = _iterations,
+            };
+    }
 }

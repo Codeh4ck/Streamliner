@@ -1,48 +1,49 @@
 ﻿using System;
 using System.Threading;
 
-namespace Streamliner.Core.Routing;
-
-public class LinkDispatcherRouter<T> : LinkRouterBase<T>
+namespace Streamliner.Core.Routing
 {
-    private int _startIndex;
-
-    public LinkDispatcherRouter() => _startIndex = 0;
-
-    public override void Route(T item)
+    public class LinkDispatcherRouter<T> : LinkRouterBase<T>
     {
-        if (Links.Count == 1)
-        {
-            Links[0].TryEnqueue(item);
-            return;
-        }
+        private int _startIndex;
 
-        // We need a round-robin approach here to ensure work is evenly distributed in the following blocks
-        for (int x = _startIndex; x < Links.Count + _startIndex; x++)
+        public LinkDispatcherRouter() => _startIndex = 0;
+
+        public override void Route(T item)
         {
-            if (Links[x % Links.Count].TryEnqueue(item))
+            if (Links.Count == 1)
             {
-                Interlocked.Increment(ref _startIndex);
+                Links[0].TryEnqueue(item);
                 return;
             }
-        }
-    }
 
-    public override void DelayedRoute(T item, TimeSpan delay)
-    {
-        if (Links.Count == 1)
-        {
-            Links[0].TryDelayedEnqueue(item, delay);
-            return;
-        }
-
-        // We need a round-robin approach here to ensure work is evenly distributed in the following blocks
-        for (int x = _startIndex; x < Links.Count + _startIndex; x++)
-        {
-            if (Links[x % Links.Count].TryDelayedEnqueue(item, delay))
+            // We need a round-robin approach here to ensure work is evenly distributed in the following blocks
+            for (int x = _startIndex; x < Links.Count + _startIndex; x++)
             {
-                Interlocked.Increment(ref _startIndex);
+                if (Links[x % Links.Count].TryEnqueue(item))
+                {
+                    Interlocked.Increment(ref _startIndex);
+                    return;
+                }
+            }
+        }
+
+        public override void DelayedRoute(T item, TimeSpan delay)
+        {
+            if (Links.Count == 1)
+            {
+                Links[0].TryDelayedEnqueue(item, delay);
                 return;
+            }
+
+            // We need a round-robin approach here to ensure work is evenly distributed in the following blocks
+            for (int x = _startIndex; x < Links.Count + _startIndex; x++)
+            {
+                if (Links[x % Links.Count].TryDelayedEnqueue(item, delay))
+                {
+                    Interlocked.Increment(ref _startIndex);
+                    return;
+                }
             }
         }
     }

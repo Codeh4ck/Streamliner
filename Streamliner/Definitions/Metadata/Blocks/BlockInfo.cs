@@ -1,19 +1,20 @@
 ﻿using System;
 using Streamliner.Core.Base;
 
-namespace Streamliner.Definitions.Metadata.Blocks;
-
-public class BlockInfo : ServiceInfo
+namespace Streamliner.Definitions.Metadata.Blocks
 {
-    public BlockInfo(Guid id, string name, BlockType blockType) : base(id, name)
+    public class BlockInfo : ServiceInfo
     {
-        BlockType = blockType;
-    }
+        public BlockInfo(Guid id, string name, BlockType blockType) : base(id, name)
+        {
+            BlockType = blockType;
+        }
 
-    public BlockInfo(Guid id, string name, string description, BlockType blockType) : base(id, name, description)
-    {
-        BlockType = blockType;
-    }
+        public BlockInfo(Guid id, string name, string description, BlockType blockType) : base(id, name, description)
+        {
+            BlockType = blockType;
+        }
 
-    public BlockType BlockType { get; set; }
+        public BlockType BlockType { get; set; }
+    }
 }
