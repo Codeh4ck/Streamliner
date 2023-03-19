@@ -26,6 +26,16 @@ PM> Install-Package Streamliner
 
 Alternatively, you can clone the repository, compile the source code and add ```Streamliner.dll``` to your references.
 
+# Build
+
+Open Streamliner.sln on your Visual Studio. Open a terminal on the root path of the solution (View -> Terminal).
+
+Run the following command:
+
+```
+dotnet build --configuration Release
+```
+
 # What kind of flows does Streamliner support?
 
 Currently Streamliner supports two kinds of flows:
