@@ -73,7 +73,7 @@ namespace Streamliner.Core.Base
                 definition.Settings.Type = _flowType;
                 definition.Settings.Iterations = _iterations;
 
-                action.Logger ??= Logger;
+                action.Logger = action.Logger ?? Logger;
 
                 IBlockLinkReceiver<T> receiver = link.LinkFactory.CreateReceiver(link);
                 consumer = new ConsumerBlock<T>(header, receiver, action, definition);
@@ -102,7 +102,7 @@ namespace Streamliner.Core.Base
                 definition.Settings.Type = _flowType;
                 definition.Settings.Iterations = _iterations;
 
-                action.Logger ??= Logger;
+                action.Logger = action.Logger ?? Logger;
 
                 IBlockLinkReceiver<TIn> receiver = link.LinkFactory.CreateReceiver(link);
                 transformer = new TransformerBlock<TIn, TOut>(header, receiver, router, action, definition);

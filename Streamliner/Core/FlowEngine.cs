@@ -22,8 +22,8 @@ namespace Streamliner.Core
 
         private IFlowPlan CreateFlow(FlowDefinition definition)
         {
-            definition.Logger ??= Logger;
-            definition.AuditLogger ??= AuditLogger;
+            definition.Logger = definition.Logger ?? Logger;
+            definition.AuditLogger = definition.AuditLogger ?? AuditLogger;
 
             IFlowPlan flowPlan = _planFactory.GeneratePlan(definition);
 

@@ -10,7 +10,7 @@ namespace Streamliner.Core.Links.Local
     {
         private static LocalLinkFactory _instance;
 
-        public static LocalLinkFactory GetInstance() => _instance ??= new LocalLinkFactory();
+        public static LocalLinkFactory GetInstance() => _instance = _instance ?? new LocalLinkFactory();
 
         private readonly Dictionary<Guid, object> _buffers;
 
