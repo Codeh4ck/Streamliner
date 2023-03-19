@@ -1,9 +1,10 @@
-﻿namespace Streamliner.Core.Utilities;
-
-public interface IRunnable
+﻿namespace Streamliner.Core.Utilities
 {
-    void Start(object context = null);
-    void Stop();
+    public interface IRunnable
+    {
+        void Start(object context = null);
+        void Stop();
 
-    bool IsRunning { get; }
+        bool IsRunning { get; }
+    }
 }

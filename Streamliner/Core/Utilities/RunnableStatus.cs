@@ -1,8 +1,9 @@
-﻿namespace Streamliner.Core.Utilities;
-
-public enum RunnableStatus
+﻿namespace Streamliner.Core.Utilities
 {
-    Running,
-    Stopping,
-    Stopped
+    public enum RunnableStatus
+    {
+        Running,
+        Stopping,
+        Stopped
+    }
 }

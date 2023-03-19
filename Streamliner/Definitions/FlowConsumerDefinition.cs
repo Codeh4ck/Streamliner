@@ -5,26 +5,27 @@ using Streamliner.Definitions.Base;
 using Streamliner.Definitions.Metadata.Blocks;
 using Streamliner.Definitions.Metadata.Flow;
 
-namespace Streamliner.Definitions;
-
-public class FlowConsumerDefinition<T> : FlowDefinitionItemBase, IFlowTargetDefinition<T>
+namespace Streamliner.Definitions
 {
-    public FlowTargetSettings Settings { get; }
-    public ICollection<FlowLinkDefinition> InboundLinks { get; }
-
-    internal FlowConsumerDefinition(BlockInfo blockInfo, FlowConsumerSettings settings, Type actionType) : base(blockInfo, actionType, BlockType.Consumer)
+    public class FlowConsumerDefinition<T> : FlowDefinitionItemBase, IFlowTargetDefinition<T>
     {
-        Settings = settings;
-        InboundLinks = new List<FlowLinkDefinition>();
-    }
+        public FlowTargetSettings Settings { get; }
+        public ICollection<FlowLinkDefinition> InboundLinks { get; }
 
-    public void LinkFrom(FlowLinkDefinition<T> link)
-    {
-        InboundLinks.Add(link);
-    }
+        internal FlowConsumerDefinition(BlockInfo blockInfo, FlowConsumerSettings settings, Type actionType) : base(blockInfo, actionType, BlockType.Consumer)
+        {
+            Settings = settings;
+            InboundLinks = new List<FlowLinkDefinition>();
+        }
 
-    public void GenerateFlowPlanItem(IFlowSourceDefinition<T> parent, IFlowPlan plan, FlowLinkDefinition<T> link)
-    {
-        plan.AddConsumer(parent.BlockInfo.Id, this, link);
+        public void LinkFrom(FlowLinkDefinition<T> link)
+        {
+            InboundLinks.Add(link);
+        }
+
+        public void GenerateFlowPlanItem(IFlowSourceDefinition<T> parent, IFlowPlan plan, FlowLinkDefinition<T> link)
+        {
+            plan.AddConsumer(parent.BlockInfo.Id, this, link);
+        }
     }
 }

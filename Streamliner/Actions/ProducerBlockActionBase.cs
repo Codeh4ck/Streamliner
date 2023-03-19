@@ -1,8 +1,9 @@
 ﻿using System.Threading;
 
-namespace Streamliner.Actions;
-
-public abstract class ProducerBlockActionBase<T> : BlockActionBase
+namespace Streamliner.Actions
 {
-    public abstract bool TryProduce(out T model, CancellationToken token = default);
+    public abstract class ProducerBlockActionBase<T> : BlockActionBase
+    {
+        public abstract bool TryProduce(out T model, CancellationToken token = default);
+    }
 }

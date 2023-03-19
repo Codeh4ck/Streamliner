@@ -6,30 +6,32 @@ using Streamliner.Definitions.Base;
 using Streamliner.Definitions.Metadata.Blocks;
 using Streamliner.Definitions.Metadata.Flow;
 
-namespace Streamliner.Definitions;
-
-public class FlowProducerDefinition<T> : FlowProducerDefinitionBase, IFlowSourceDefinition<T>
+namespace Streamliner.Definitions
 {
-    public ICollection<FlowLinkDefinition<T>> OutboundLinks { get; }
-
-    internal FlowProducerDefinition(BlockInfo blockInfo, FlowProducerSettings settings, Type actionType) : base(blockInfo, settings, actionType)
+    public class FlowProducerDefinition<T> : FlowProducerDefinitionBase, IFlowSourceDefinition<T>
     {
-        OutboundLinks = new List<FlowLinkDefinition<T>>();
-    }
+        public ICollection<FlowLinkDefinition<T>> OutboundLinks { get; }
 
-    public override void GeneratePlanItem(IFlowPlan plan)
-    {
-        plan.AddProducer(this);
+        internal FlowProducerDefinition(BlockInfo blockInfo, FlowProducerSettings settings, Type actionType) : base(blockInfo, settings, actionType)
+        {
+            OutboundLinks = new List<FlowLinkDefinition<T>>();
+        }
 
-        foreach(FlowLinkDefinition<T> link in OutboundLinks)
-            link.Target.GenerateFlowPlanItem(this, plan, link);
-    }
+        public override void GeneratePlanItem(IFlowPlan plan)
+        {
+            plan.AddProducer(this);
 
-    public FlowLinkResult LinkTo(IFlowTargetDefinition<T> target, Func<T, bool> filterFunc = null)
-    {
-        FlowLinkDefinition<T> linkDefinition = new(this, target, LocalLinkFactory.GetInstance(), filterFunc);
-        OutboundLinks.Add(linkDefinition);
+            foreach(FlowLinkDefinition<T> link in OutboundLinks)
+                link.Target.GenerateFlowPlanItem(this, plan, link);
+        }
 
-        return new(linkDefinition);
+        public FlowLinkResult LinkTo(IFlowTargetDefinition<T> target, Func<T, bool> filterFunc = null)
+        {
+            FlowLinkDefinition<T> linkDefinition =
+                new FlowLinkDefinition<T>(this, target, LocalLinkFactory.GetInstance(), filterFunc);
+            OutboundLinks.Add(linkDefinition);
+
+            return new FlowLinkResult(linkDefinition);
+        }
     }
 }

@@ -3,19 +3,20 @@ using Streamliner.Definitions;
 using Streamliner.Definitions.Metadata.Blocks;
 using Streamliner.Definitions.Metadata.Flow;
 
-namespace Streamliner.Fluent.Transformer;
-
-public class FluentTransformerDefinitionWithAction<TIn, TOut>
+namespace Streamliner.Fluent.Transformer
 {
-    private readonly BlockInfo _blockInfo;
-    private readonly FlowTransformerSettings _transformerSettings;
-
-    internal FluentTransformerDefinitionWithAction(BlockInfo blockInfo, FlowTransformerSettings transformerSettings)
+    public class FluentTransformerDefinitionWithAction<TIn, TOut>
     {
-        _blockInfo = blockInfo;
-        _transformerSettings = transformerSettings;
-    }
+        private readonly BlockInfo _blockInfo;
+        private readonly FlowTransformerSettings _transformerSettings;
 
-    public FlowTransformerDefinition<TIn, TOut> WithAction<TAction>() where TAction : TransformerBlockActionBase<TIn, TOut> =>
-        new(_blockInfo, _transformerSettings, typeof(TAction));
+        internal FluentTransformerDefinitionWithAction(BlockInfo blockInfo, FlowTransformerSettings transformerSettings)
+        {
+            _blockInfo = blockInfo;
+            _transformerSettings = transformerSettings;
+        }
+
+        public FlowTransformerDefinition<TIn, TOut> WithAction<TAction>() where TAction : TransformerBlockActionBase<TIn, TOut> =>
+            new FlowTransformerDefinition<TIn, TOut>(_blockInfo, _transformerSettings, typeof(TAction));
+    }
 }

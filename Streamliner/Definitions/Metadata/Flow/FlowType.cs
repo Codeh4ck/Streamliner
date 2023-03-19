@@ -1,7 +1,8 @@
-﻿namespace Streamliner.Definitions.Metadata.Flow;
-
-public enum FlowType
+﻿namespace Streamliner.Definitions.Metadata.Flow
 {
-    StreamFlow,
-    WorkFlow
+    public enum FlowType
+    {
+        StreamFlow,
+        WorkFlow
+    }
 }

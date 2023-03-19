@@ -3,19 +3,20 @@ using Streamliner.Definitions;
 using Streamliner.Definitions.Metadata.Blocks;
 using Streamliner.Definitions.Metadata.Flow;
 
-namespace Streamliner.Fluent.Waiter;
-
-public class FluentWaiterDefinitionThatWaits
+namespace Streamliner.Fluent.Waiter
 {
-    private readonly BlockInfo _blockInfo;
-    private readonly FlowWaiterSettings _waiterSettings;
-
-    internal FluentWaiterDefinitionThatWaits(BlockInfo blockInfo, FlowWaiterSettings waiterSettings)
+    public class FluentWaiterDefinitionThatWaits
     {
-        _blockInfo = blockInfo;
-        _waiterSettings = waiterSettings;
-    }
+        private readonly BlockInfo _blockInfo;
+        private readonly FlowWaiterSettings _waiterSettings;
 
-    public FlowWaiterDefinition<T> ThatWaits<T>() where T : IWaitable => 
-        new(_blockInfo, _waiterSettings);
+        internal FluentWaiterDefinitionThatWaits(BlockInfo blockInfo, FlowWaiterSettings waiterSettings)
+        {
+            _blockInfo = blockInfo;
+            _waiterSettings = waiterSettings;
+        }
+
+        public FlowWaiterDefinition<T> ThatWaits<T>() where T : IWaitable =>
+            new FlowWaiterDefinition<T>(_blockInfo, _waiterSettings);
+    }
 }

@@ -1,9 +1,12 @@
 # Streamliner
-A .NET 7 library that enables the creation of code workflows that isolate responsibilities. 
+A .NET library that enables the creation of code workflows that isolate responsibilities. 
 Streamliner creates a directed acyclic graph which represents the workflow in separate, single responsibility blocks.
 
-For the .NET Core 3.1 version, please refer to the [respectful branch](https://github.com/Codeh4ck/Streamliner/tree/dotnet-core-3.1).
-For .NET 6, install version 1.3.x from NuGet.
+| **.NET Runtime** 	| **Supported Versions**                      	|
+|------------------	|---------------------------------------------	|
+| .NET Core        	| 2.0, 2.1, 2.2, 3.0, 3.1                     	|
+| .NET Framework   	| 4.6.1, 4.6.2, 4.7, 4.7.1, 4.7.2, 4.8, 4.8.1 	|
+| .NET             	| 5, 6, 7                                     	|
 
 ### Check the [examples](https://github.com/Codeh4ck/Streamliner/tree/examples) branch for example projects.
 
@@ -22,6 +25,16 @@ PM> Install-Package Streamliner
 ```
 
 Alternatively, you can clone the repository, compile the source code and add ```Streamliner.dll``` to your references.
+
+# Build
+
+Open Streamliner.sln on your Visual Studio. Open a terminal on the root path of the solution (View -> Terminal).
+
+Run the following command:
+
+```
+dotnet build --configuration Release
+```
 
 # What kind of flows does Streamliner support?
 

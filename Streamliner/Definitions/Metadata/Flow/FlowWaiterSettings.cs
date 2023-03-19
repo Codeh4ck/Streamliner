@@ -1,13 +1,14 @@
 ﻿using Streamliner.Definitions.Metadata.Blocks;
 
-namespace Streamliner.Definitions.Metadata.Flow;
-
-public class FlowWaiterSettings : FlowTargetSettings
+namespace Streamliner.Definitions.Metadata.Flow
 {
-    public ProducerType ProducerType { get; }
-
-    public FlowWaiterSettings(ProducerType producerType, int capacity, object context = null, uint parallelismInstances = 1) : base(capacity, context, parallelismInstances)
+    public class FlowWaiterSettings : FlowTargetSettings
     {
-        ProducerType = producerType;
+        public ProducerType ProducerType { get; }
+
+        public FlowWaiterSettings(ProducerType producerType, int capacity, object context = null, uint parallelismInstances = 1) : base(capacity, context, parallelismInstances)
+        {
+            ProducerType = producerType;
+        }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using Streamliner.Definitions;
 
-namespace Streamliner.Core.Base;
-
-public abstract class FlowPlanFactoryBase
+namespace Streamliner.Core.Base
 {
-    public abstract IFlowPlan GeneratePlan(FlowDefinition definition);
+    public abstract class FlowPlanFactoryBase
+    {
+        public abstract IFlowPlan GeneratePlan(FlowDefinition definition);
+    }
 }
