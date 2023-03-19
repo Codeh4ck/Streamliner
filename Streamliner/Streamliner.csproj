@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+	  <TargetFrameworks>netstandard2.0;net46;net461;net462;net47;net471;net472;net6.0;net7.0</TargetFrameworks>
     <Authors>Nikolas Andreou</Authors>
     <Product>Streamliner</Product>
     <Description>A .NET library that enables the creation of code workflows. Streamliner creates a directed acyclic graph which represents the workflow in separate, single responsibility blocks running in parallel.</Description>
