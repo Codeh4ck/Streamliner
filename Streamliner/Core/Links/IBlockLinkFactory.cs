@@ -6,6 +6,6 @@ namespace Streamliner.Core.Links
     public interface IBlockLinkFactory
     {
         IBlockLink<T> CreateLink<T>(ISourceBlock<T> from, ITargetBlock<T> to, FlowLinkDefinition<T> link);
-        IBlockLinkReceiver<T> CreateReceiver<T>(FlowLinkDefinition<T> linkDefinition);
+        IBlockLinkReceiver<T> CreateReceiver<T>(FlowDefinition flowDefinition, FlowLinkDefinition<T> linkDefinition);
     }
 }

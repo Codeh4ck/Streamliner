@@ -9,12 +9,11 @@ namespace Streamliner.Core.Links.Local
     internal class LocalLinkFactory : IBlockLinkFactory
     {
         private static LocalLinkFactory _instance;
-
         public static LocalLinkFactory GetInstance() => _instance = _instance ?? new LocalLinkFactory();
 
         private readonly Dictionary<Guid, object> _buffers;
 
-        public LocalLinkFactory() => _buffers = new Dictionary<Guid, object>();
+        private LocalLinkFactory() => _buffers = new Dictionary<Guid, object>();
 
         public IBlockLink<T> CreateLink<T>(ISourceBlock<T> source, ITargetBlock<T> target, FlowLinkDefinition<T> linkDefinition)
         {
@@ -22,7 +21,7 @@ namespace Streamliner.Core.Links.Local
             return new LocalBlockLink<T>(buffer, source, target, linkDefinition);
         }
 
-        public IBlockLinkReceiver<T> CreateReceiver<T>(FlowLinkDefinition<T> linkDefinition)
+        public IBlockLinkReceiver<T> CreateReceiver<T>(FlowDefinition flowDefinition, FlowLinkDefinition<T> linkDefinition)
         {
             BlockingCollection<T> buffer = CreateBuffer(linkDefinition);
             return new LocalLinkReceiver<T>(buffer);
