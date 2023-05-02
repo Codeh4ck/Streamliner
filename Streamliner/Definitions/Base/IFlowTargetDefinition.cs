@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using Streamliner.Core.Base;
+using Streamliner.Core.Links;
+using Streamliner.Core.Links.Remote.MessageQueues;
 using Streamliner.Definitions.Metadata.Flow;
 
 namespace Streamliner.Definitions.Base

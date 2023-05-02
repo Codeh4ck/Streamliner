@@ -9,9 +9,7 @@ namespace Streamliner.Definitions
     public class FlowTransformerDefinition<TIn, TOut> : FlowTransformerDefinitionBase<TIn, TOut>
     {
         internal FlowTransformerDefinition(BlockInfo blockInfo, FlowTransformerSettings settings, Type actionType) 
-            : base(blockInfo, settings, actionType, BlockType.Transformer)
-        {
-        }
+            : base(blockInfo, settings, actionType, BlockType.Transformer) { }
 
         public override void GenerateFlowPlanItem(IFlowSourceDefinition<TIn> parent, IFlowPlan plan, FlowLinkDefinition<TIn> link)
         {

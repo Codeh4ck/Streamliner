@@ -8,9 +8,8 @@ namespace Streamliner.Definitions
 {
     public class FlowBatcherDefinition<T> : FlowTransformerDefinitionBase<T, List<T>>
     {
-        internal FlowBatcherDefinition(BlockInfo blockInfo, FlowTargetSettings settings) : base(blockInfo, settings, null, BlockType.Batcher)
-        {
-        }
+        internal FlowBatcherDefinition(BlockInfo blockInfo, FlowTargetSettings settings) 
+            : base(blockInfo, settings, null, BlockType.Batcher) { }
 
         public override void GenerateFlowPlanItem(IFlowSourceDefinition<T> parent, IFlowPlan plan, FlowLinkDefinition<T> link)
         {

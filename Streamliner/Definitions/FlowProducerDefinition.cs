@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Streamliner.Core.Base;
 using Streamliner.Core.Links.Local;
+using Streamliner.Core.Links.Remote;
+using Streamliner.Core.Links.Remote.MessageQueues;
 using Streamliner.Definitions.Base;
 using Streamliner.Definitions.Metadata.Blocks;
 using Streamliner.Definitions.Metadata.Flow;
@@ -29,6 +31,20 @@ namespace Streamliner.Definitions
         {
             FlowLinkDefinition<T> linkDefinition =
                 new FlowLinkDefinition<T>(this, target, LocalLinkFactory.GetInstance(), filterFunc);
+            
+            return InternalLinkTo(linkDefinition);
+        }
+
+        public FlowLinkResult LinkTo(IFlowTargetDefinition<T> target, IMqFactory mqFactory, Func<T, bool> filterFunc)
+        {
+            FlowLinkDefinition<T> linkDefinition =
+                new FlowLinkDefinition<T>(this, target, RemoteMqLinkFactory.GetInstance(mqFactory), filterFunc);
+
+            return InternalLinkTo(linkDefinition);
+        }
+        
+        private FlowLinkResult InternalLinkTo(FlowLinkDefinition<T> linkDefinition)
+        {
             OutboundLinks.Add(linkDefinition);
 
             return new FlowLinkResult(linkDefinition);
