@@ -12,7 +12,7 @@ using Streamliner.Definitions.Metadata.Flow;
 
 namespace Streamliner.Core.Base
 {
-    internal class FlowPlanInternal : FlowPlanBase
+    internal sealed class FlowPlanInternal : FlowPlanBase
     {
         private readonly IBlockActionFactory _actionFactory;
         private readonly FlowBlockContainer _blockContainer;
@@ -35,7 +35,7 @@ namespace Streamliner.Core.Base
             AddProducer(definition, action);
         }
 
-        protected void AddProducer<T>(FlowProducerDefinition<T> definition, ProducerBlockActionBase<T> action)
+        private void AddProducer<T>(FlowProducerDefinition<T> definition, ProducerBlockActionBase<T> action)
         {
             BlockHeader header = new BlockHeader(definition.BlockInfo, Definition.ServiceInfo);
             action.Header = header;
@@ -75,7 +75,7 @@ namespace Streamliner.Core.Base
 
                 action.Logger = action.Logger ?? Logger;
 
-                IBlockLinkReceiver<T> receiver = link.LinkFactory.CreateReceiver(link);
+                IBlockLinkReceiver<T> receiver = link.LinkFactory.CreateReceiver(Definition, link);
                 consumer = new ConsumerBlock<T>(header, receiver, action, definition);
 
                 AssignLoggers(consumer);
@@ -104,7 +104,7 @@ namespace Streamliner.Core.Base
 
                 action.Logger = action.Logger ?? Logger;
 
-                IBlockLinkReceiver<TIn> receiver = link.LinkFactory.CreateReceiver(link);
+                IBlockLinkReceiver<TIn> receiver = link.LinkFactory.CreateReceiver(Definition,link);
                 transformer = new TransformerBlock<TIn, TOut>(header, receiver, router, action, definition);
                 
                 AssignLoggers(transformer);
@@ -138,7 +138,7 @@ namespace Streamliner.Core.Base
                 definition.Settings.Iterations = _iterations;
 
                 LinkRouterBase<T> router = GetLinkFromProducerType<T>(settings.ProducerType);
-                IBlockLinkReceiver<T> receiver = link.LinkFactory.CreateReceiver(link);
+                IBlockLinkReceiver<T> receiver = link.LinkFactory.CreateReceiver(Definition,link);
 
                 waiter = new WaiterBlock<T>(header, receiver, router, definition);
                 AssignLoggers(waiter);
@@ -165,7 +165,7 @@ namespace Streamliner.Core.Base
                 definition.Settings.Iterations = _iterations;
 
                 LinkRouterBase<List<T>> router = GetLinkFromProducerType<List<T>>(settings.ProducerType);
-                IBlockLinkReceiver<T> receiver = link.LinkFactory.CreateReceiver(link);
+                IBlockLinkReceiver<T> receiver = link.LinkFactory.CreateReceiver(Definition,link);
 
                 batcher = new BatcherBlock<T>(header, receiver, router, definition);
 
@@ -219,7 +219,7 @@ namespace Streamliner.Core.Base
             AuditLogger?.FlowStopped(Definition.ServiceInfo);
         }
 
-        protected virtual void Link<T>(ISourceBlock<T> from, ITargetBlock<T> to, FlowLinkDefinition<T> link)
+        private void Link<T>(ISourceBlock<T> from, ITargetBlock<T> to, FlowLinkDefinition<T> link)
         {
             IBlockLink<T> blockLink = link.LinkFactory.CreateLink(from, to, link);
             from.AddLink(blockLink);
