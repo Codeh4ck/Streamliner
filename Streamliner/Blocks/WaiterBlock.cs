@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 using Streamliner.Blocks.Base;
 using Streamliner.Core.Links;
 using Streamliner.Core.Routing;
@@ -14,10 +15,10 @@ namespace Streamliner.Blocks
             : base(header, definition.Settings, router) =>
             Receiver = receiver;
 
-        protected override void ProcessItem(CancellationToken token = default)
+        protected override async Task ProcessItem(CancellationToken token = default)
         {
             T item = Receiver.Receive(token);
-            Router.DelayedRoute(item, item.WaitFor);
+            await Router.DelayedRoute(item, item.WaitFor);
         }
     }
 }

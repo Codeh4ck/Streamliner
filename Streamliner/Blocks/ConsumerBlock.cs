@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 using Streamliner.Actions;
 using Streamliner.Blocks.Base;
 using Streamliner.Core.Links;
@@ -19,10 +20,10 @@ namespace Streamliner.Blocks
             _action = action;
         }
 
-        protected override void ProcessItem(CancellationToken token = default)
+        protected override async Task ProcessItem(CancellationToken token = default)
         {
             T item = Receiver.Receive(token);
-            _action.Consume(item, token);
+            await _action.Consume(item, token);
         }
 
         protected override void OnStart(object context = null)

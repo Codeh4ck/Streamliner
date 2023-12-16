@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 using Streamliner.Actions;
 using Streamliner.Blocks.Base;
 using Streamliner.Core.Links;
@@ -20,11 +21,11 @@ namespace Streamliner.Blocks
             _action = action;
         }
 
-        protected override void ProcessItem(CancellationToken token = default)
+        protected override async Task ProcessItem(CancellationToken token = default)
         {
             TIn tin = Receiver.Receive(token);
             
-            if (!_action.TryTransform(tin, out TOut model, token))
+            if (!await _action.TryTransform(tin, out TOut model, token))
                 return;
 
             Router.Route(model);

@@ -39,16 +39,20 @@ namespace Streamliner.Blocks
             _toggled = false;
         }
 
-        protected override void ProcessItem(CancellationToken token = default)
+        protected override Task ProcessItem(CancellationToken token = default)
         {
             T item = Receiver.Receive();
+            
             lock (_syncRoot)
             {
                 _toggled = true;    
                 _batch.Add(item);
+                
                 if (_batch.Count >= _maxBatchSize)
                     RouteBatch();
             }
+
+            return Task.CompletedTask;
         }
 
         private void RouteBatch()
@@ -66,11 +70,12 @@ namespace Streamliner.Blocks
                 Router.Route(items);
         }
 
-        private void TimeoutBatch()
+        private async Task TimeoutBatch()
         {
             while (IsRunning)
             {
-                Thread.Sleep(_maxBatchTimeout);
+                await Task.Delay(_maxBatchTimeout);
+                
                 if (_toggled)
                     RouteBatch();
             }

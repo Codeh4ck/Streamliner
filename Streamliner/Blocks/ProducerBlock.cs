@@ -1,4 +1,5 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 using Streamliner.Actions;
 using Streamliner.Core.Routing;
 using Streamliner.Definitions;
@@ -19,9 +20,9 @@ namespace Streamliner.Blocks
             _action = action;
         }
 
-        protected override void ProcessItem(CancellationToken token = default)
+        protected override async Task ProcessItem(CancellationToken token = default)
         {
-            if (_action.TryProduce(out T t, token))
+            if (await _action.TryProduce(out T t, token))
                 Router.Route(t);
         }
 

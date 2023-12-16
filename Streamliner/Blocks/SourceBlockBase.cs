@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Streamliner.Blocks.Base;
 using Streamliner.Core.Links;
 using Streamliner.Core.Routing;
@@ -42,12 +43,12 @@ namespace Streamliner.Blocks
                 target.Stop();
         }
 
-        public override void Wait()
+        public override async Task Wait()
         {
             foreach (ITargetBlock<T> target in Children)
-                target.Wait();
+                await target.Wait();
 
-            base.Wait();
+            await base.Wait();
         }
     }
 }

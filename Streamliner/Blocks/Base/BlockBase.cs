@@ -29,7 +29,7 @@ namespace Streamliner.Blocks.Base
             FlowSettings = settings;
         }
 
-        protected abstract void ProcessItem(CancellationToken token = default);
+        protected abstract Task ProcessItem(CancellationToken token = default);
 
         private void Process()
         {
@@ -106,7 +106,7 @@ namespace Streamliner.Blocks.Base
 
         private void PingOnce() => AuditLogger.BlockPing(Header);
 
-        public virtual void Wait() => Task.WaitAll(_processingTasks, _cancellationToken);
+        public virtual async Task Wait() => await Task.WhenAll(_processingTasks);
 
         protected override void OnStart(object context = null)
         {
