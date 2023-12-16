@@ -18,7 +18,7 @@ namespace Streamliner.Core.Links.Local
 
         protected override void Enqueue(T item, CancellationToken token = default) => _buffer.Add(item, token);
 
-        protected override void DelayedEnqueue(T item, TimeSpan delay, CancellationToken token = default) =>
-            Task.Delay(delay, token).ContinueWith(_ => Enqueue(item, token), token);
+        protected override async Task DelayedEnqueue(T item, TimeSpan delay, CancellationToken token = default) =>
+            await Task.Delay(delay, token).ContinueWith(_ => Enqueue(item, token), token);
     }
 }

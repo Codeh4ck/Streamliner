@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Streamliner.Core.Links;
 
 namespace Streamliner.Core.Routing
@@ -13,6 +14,6 @@ namespace Streamliner.Core.Routing
         public void AddLink(IBlockLink<T> link) => Links.Add(link);
 
         public abstract void Route(T item);
-        public abstract void DelayedRoute(T item, TimeSpan delay);
+        public abstract Task DelayedRoute(T item, TimeSpan delay);
     }
 }

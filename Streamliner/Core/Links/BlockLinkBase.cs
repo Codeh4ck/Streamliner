@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Streamliner.Blocks.Base;
 using Streamliner.Definitions;
 
@@ -12,7 +13,7 @@ namespace Streamliner.Core.Links
         public Func<T, bool> FuncFilter { get; }
 
         protected abstract void Enqueue(T item, CancellationToken token = default);
-        protected abstract void DelayedEnqueue(T item, TimeSpan delay, CancellationToken token = default);
+        protected abstract Task DelayedEnqueue(T item, TimeSpan delay, CancellationToken token = default);
 
         protected BlockLinkBase(ISourceBlock<T> sourceBlock, ITargetBlock<T> targetBlock, FlowLinkDefinition<T> linkDefinition)
         {
@@ -31,11 +32,11 @@ namespace Streamliner.Core.Links
 
             return false;
         }
-        public bool TryDelayedEnqueue(T item, TimeSpan delay, CancellationToken token = default)
+        public async Task<bool> TryDelayedEnqueue(T item, TimeSpan delay, CancellationToken token = default)
         {
             if (FuncFilter == null || FuncFilter(item))
             {
-                DelayedEnqueue(item, delay, token);
+                await DelayedEnqueue(item, delay, token);
                 return true;
             }
 
