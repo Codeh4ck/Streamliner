@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Streamliner.Core.Routing
 {
@@ -28,18 +29,18 @@ namespace Streamliner.Core.Routing
             }
         }
 
-        public override void DelayedRoute(T item, TimeSpan delay)
+        public override async Task DelayedRoute(T item, TimeSpan delay)
         {
             if (Links.Count == 1)
             {
-                Links[0].TryDelayedEnqueue(item, delay);
+                await Links[0].TryDelayedEnqueue(item, delay);
                 return;
             }
 
             // We need a round-robin approach here to ensure work is evenly distributed in the following blocks
             for (int x = _startIndex; x < Links.Count + _startIndex; x++)
             {
-                if (Links[x % Links.Count].TryDelayedEnqueue(item, delay))
+                if (await Links[x % Links.Count].TryDelayedEnqueue(item, delay))
                 {
                     Interlocked.Increment(ref _startIndex);
                     return;

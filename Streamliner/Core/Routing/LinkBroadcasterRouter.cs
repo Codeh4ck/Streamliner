@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Streamliner.Core.Links;
 
 namespace Streamliner.Core.Routing
@@ -11,7 +12,7 @@ namespace Streamliner.Core.Routing
                 link.TryEnqueue(item);
         }
 
-        public override void DelayedRoute(T item, TimeSpan delay)
+        public override async Task DelayedRoute(T item, TimeSpan delay)
         {
             foreach (IBlockLink<T> link in Links)
                 link.TryDelayedEnqueue(item, delay);
