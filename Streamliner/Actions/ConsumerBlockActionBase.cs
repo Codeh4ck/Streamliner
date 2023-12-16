@@ -1,9 +1,10 @@
 ﻿using System.Threading;
+using System.Threading.Tasks;
 
 namespace Streamliner.Actions
 {
     public abstract class ConsumerBlockActionBase<TIn> : BlockActionBase
     {
-        public abstract void Consume(TIn model, CancellationToken token = default);
+        public abstract Task Consume(TIn model, CancellationToken token = default);
     }
 }
