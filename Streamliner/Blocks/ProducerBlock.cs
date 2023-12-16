@@ -22,8 +22,10 @@ namespace Streamliner.Blocks
 
         protected override async Task ProcessItem(CancellationToken token = default)
         {
-            if (await _action.TryProduce(out T t, token))
-                Router.Route(t);
+            var result = await _action.TryProduce(token);
+            
+            if (result.Continue)
+                Router.Route(result.Model);
         }
 
         protected override void OnStart(object context = null)

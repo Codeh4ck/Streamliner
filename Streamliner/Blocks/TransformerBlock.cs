@@ -24,11 +24,12 @@ namespace Streamliner.Blocks
         protected override async Task ProcessItem(CancellationToken token = default)
         {
             TIn tin = Receiver.Receive(token);
+            var result = await _action.TryTransform(tin, token);
             
-            if (!await _action.TryTransform(tin, out TOut model, token))
+            if (!result.Continue)
                 return;
 
-            Router.Route(model);
+            Router.Route(result.Model);
         }
 
         protected override void OnStart(object context = null)
