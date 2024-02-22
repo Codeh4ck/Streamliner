@@ -3,7 +3,7 @@ using Streamliner.Definitions.Metadata.Flow;
 
 namespace Streamliner.Fluent.Transformer
 {
-    public class FluentTransformerDefinitionThatTransforms
+    public sealed class FluentTransformerDefinitionThatTransforms
     {
         private readonly BlockInfo _blockInfo;
         private readonly FlowTransformerSettings _transformerSettings;

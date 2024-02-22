@@ -9,6 +9,8 @@ namespace Streamliner.Core.Base
         ILogger Logger { get; }
         IFlowAuditLogger AuditLogger { get; }
         IFlowPlan StartFlow(FlowDefinition definition);
+        void StartFlow(IFlowPlan definition);
         bool StopFlow(Guid planId);
+        bool StopFlow(IFlowPlan flowPlan);
     }
 }

@@ -2,8 +2,8 @@
 {
     public class FlowTargetSettings : FlowSettings
     {
-        public FlowTargetSettings(int capacity, object context = null, uint parallelismInstances = 1) 
-            : base(context, parallelismInstances)
+        public FlowTargetSettings(int capacity, object context = null, uint maxDegreeOfParallelism = 1) 
+            : base(context, maxDegreeOfParallelism)
         {
             Capacity = capacity;
         }

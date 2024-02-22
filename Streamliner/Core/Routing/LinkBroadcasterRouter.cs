@@ -15,7 +15,7 @@ namespace Streamliner.Core.Routing
         public override async Task DelayedRoute(T item, TimeSpan delay)
         {
             foreach (IBlockLink<T> link in Links)
-                link.TryDelayedEnqueue(item, delay);
+                await link.TryDelayedEnqueue(item, delay);
         }
     }
 }

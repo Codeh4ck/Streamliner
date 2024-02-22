@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Streamliner.Actions;
 using Streamliner.Blocks.Base;
 using Streamliner.Core.Utilities;
@@ -31,7 +32,8 @@ namespace Streamliner.Core.Base
             where T : IWaitable;
 
         public abstract void AddBatcher<T>(Guid parentId, FlowBatcherDefinition<T> definition, FlowLinkDefinition<T> link);
-
+        public abstract void AddPartitioner<T>(Guid parentId, FlowPartitionerDefinition<T> partitioner, FlowLinkDefinition<List<T>> link);
+        
         public abstract void Wait();
         public abstract void Trigger<T>(TriggerContext<T> triggerContext);
     }

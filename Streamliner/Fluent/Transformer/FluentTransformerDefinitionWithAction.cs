@@ -5,7 +5,7 @@ using Streamliner.Definitions.Metadata.Flow;
 
 namespace Streamliner.Fluent.Transformer
 {
-    public class FluentTransformerDefinitionWithAction<TIn, TOut>
+    public sealed class FluentTransformerDefinitionWithAction<TIn, TOut>
     {
         private readonly BlockInfo _blockInfo;
         private readonly FlowTransformerSettings _transformerSettings;

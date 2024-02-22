@@ -3,7 +3,7 @@ using Streamliner.Definitions.Metadata.Flow;
 
 namespace Streamliner.Fluent.Consumer
 {
-    public class FluentConsumerDefinitionThatConsumes
+    public sealed class FluentConsumerDefinitionThatConsumes
     {
         private readonly BlockInfo _blockInfo;
         private readonly FlowConsumerSettings _consumerSettings;

@@ -6,9 +6,7 @@ namespace Streamliner.Core.Routing
 {
     public class LinkDispatcherRouter<T> : LinkRouterBase<T>
     {
-        private int _startIndex;
-
-        public LinkDispatcherRouter() => _startIndex = 0;
+        private int _startIndex = 0;
 
         public override void Route(T item)
         {
@@ -18,7 +16,6 @@ namespace Streamliner.Core.Routing
                 return;
             }
 
-            // We need a round-robin approach here to ensure work is evenly distributed in the following blocks
             for (int x = _startIndex; x < Links.Count + _startIndex; x++)
             {
                 if (Links[x % Links.Count].TryEnqueue(item))
@@ -37,7 +34,6 @@ namespace Streamliner.Core.Routing
                 return;
             }
 
-            // We need a round-robin approach here to ensure work is evenly distributed in the following blocks
             for (int x = _startIndex; x < Links.Count + _startIndex; x++)
             {
                 if (await Links[x % Links.Count].TryDelayedEnqueue(item, delay))

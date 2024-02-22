@@ -4,7 +4,7 @@ using Streamliner.Definitions.Metadata.Flow;
 
 namespace Streamliner.Fluent.Batcher
 {
-    public class FluentBatcherDefinitionThatBatches
+    public sealed class FluentBatcherDefinitionThatBatches
     {
         private readonly BlockInfo _blockInfo;
         private readonly FlowBatcherSettings _batcherSettings;

@@ -176,6 +176,34 @@ namespace Streamliner.Core.Base
             Link(parentBlock, batcher, link);
         }
 
+        public override void AddPartitioner<T>(Guid parentId, FlowPartitionerDefinition<T> definition, FlowLinkDefinition<List<T>> link)
+        {
+            if (!_blockContainer.TryGetSourceBlock(parentId, out SourceBlockBase<List<T>> parentBlock))
+            {
+                throw new Exception($"Cannot link block {definition.BlockInfo.Name} with id {definition.BlockInfo.Id} to parent block. " +
+                                    "Parent block not found.");
+            }
+
+            if (!_blockContainer.TryGetBlock(definition.BlockInfo.Id, out PartitionerBlock<T> partitioner))
+            {
+                BlockHeader header = new BlockHeader(definition.BlockInfo, Definition.ServiceInfo);
+                FlowPartitionerSettings settings = (FlowPartitionerSettings) definition.Settings;
+
+                definition.Settings.Type = _flowType;
+                definition.Settings.Iterations = _iterations;
+
+                LinkRouterBase<List<T>> router = GetLinkFromProducerType<List<T>>(settings.ProducerType);
+                IBlockLinkReceiver<List<T>> receiver = link.LinkFactory.CreateReceiver(link);
+
+                partitioner = new PartitionerBlock<T>(header, receiver, router, definition);
+
+                AssignLoggers(partitioner);
+                _blockContainer.AddBlock(partitioner);
+            }
+
+            Link(parentBlock, partitioner, link);
+        }
+
         public override void Wait()
         {
             foreach (BlockBase blockBase in _blockContainer.Entrypoints)

@@ -7,9 +7,7 @@ namespace Streamliner.Core.Routing
 {
     public abstract class LinkRouterBase<T>
     {
-        protected readonly List<IBlockLink<T>> Links;
-
-        protected LinkRouterBase() => Links = new List<IBlockLink<T>>();
+        protected readonly List<IBlockLink<T>> Links = new List<IBlockLink<T>>();
 
         public void AddLink(IBlockLink<T> link) => Links.Add(link);
 

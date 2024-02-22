@@ -4,11 +4,11 @@ using Streamliner.Definitions.Metadata.Flow;
 
 namespace Streamliner.Fluent.Consumer
 {
-    public class FluentConsumerDefinition
+    public sealed class FluentConsumerDefinition
     {
         private object _withContext = null;
         private int _capacity = 1;
-        private uint _parallelismInstances = 1;
+        private uint _maxDegreeOfParallelism = 1;
 
         internal FluentConsumerDefinition() { }
 
@@ -18,9 +18,9 @@ namespace Streamliner.Fluent.Consumer
             return this;
         }
 
-        public FluentConsumerDefinition WithParallelismInstances(uint instances)
+        public FluentConsumerDefinition WithMaxDegreeOfParallelism(uint degree)
         {
-            _parallelismInstances = instances;
+            _maxDegreeOfParallelism = degree;
             return this;
         }
 
@@ -32,6 +32,6 @@ namespace Streamliner.Fluent.Consumer
 
         public FluentConsumerDefinitionThatConsumes WithBlockInfo(Guid id, string name) =>
             new FluentConsumerDefinitionThatConsumes(new BlockInfo(id, name, BlockType.Producer),
-                new FlowConsumerSettings(_capacity, _withContext, _parallelismInstances));
+                new FlowConsumerSettings(_capacity, _withContext, _maxDegreeOfParallelism));
     }
 }

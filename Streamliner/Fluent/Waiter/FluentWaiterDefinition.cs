@@ -4,12 +4,12 @@ using Streamliner.Definitions.Metadata.Flow;
 
 namespace Streamliner.Fluent.Waiter
 {
-    public class FluentWaiterDefinition
+    public sealed class FluentWaiterDefinition
     {
         private readonly ProducerType _producerType;
         private object _withContext = null;
         private int _capacity = 1;
-        private uint _parallelismInstances = 1;
+        private uint _maxDegreeOfParallelism = 1;
 
         internal FluentWaiterDefinition(ProducerType producerType) => _producerType = producerType;
 
@@ -19,9 +19,9 @@ namespace Streamliner.Fluent.Waiter
             return this;
         }
 
-        public FluentWaiterDefinition WithParallelismInstances(uint instances)
+        public FluentWaiterDefinition WithMaxDegreeOfParallelism(uint degree)
         {
-            _parallelismInstances = instances;
+            _maxDegreeOfParallelism = degree;
             return this;
         }
 
@@ -33,6 +33,6 @@ namespace Streamliner.Fluent.Waiter
 
         public FluentWaiterDefinitionThatWaits WithBlockInfo(Guid id, string name) =>
             new FluentWaiterDefinitionThatWaits(new BlockInfo(id, name, BlockType.Producer),
-                new FlowWaiterSettings(_producerType, _capacity, _withContext, _parallelismInstances));
+                new FlowWaiterSettings(_producerType, _capacity, _withContext, _maxDegreeOfParallelism));
     }
 }

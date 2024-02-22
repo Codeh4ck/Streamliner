@@ -3,7 +3,7 @@ using Streamliner.Definitions.Metadata.Flow;
 
 namespace Streamliner.Fluent.Producer
 {
-    public class FluentProducerDefinitionThatProduces
+    public sealed class FluentProducerDefinitionThatProduces
     {
         private readonly BlockInfo _blockInfo;
         private readonly FlowProducerSettings _producerSettings;

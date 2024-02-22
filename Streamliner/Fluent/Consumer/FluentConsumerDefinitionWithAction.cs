@@ -5,7 +5,7 @@ using Streamliner.Definitions.Metadata.Flow;
 
 namespace Streamliner.Fluent.Consumer
 {
-    public class FluentConsumerDefinitionWithAction<T>
+    public sealed class FluentConsumerDefinitionWithAction<T>
     {
         private readonly BlockInfo _blockInfo;
         private readonly FlowConsumerSettings _consumerSettings;

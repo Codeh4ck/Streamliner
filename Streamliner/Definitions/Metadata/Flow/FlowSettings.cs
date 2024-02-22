@@ -2,15 +2,15 @@
 {
     public abstract class FlowSettings
     {
-        protected FlowSettings(object context = null, uint parallelismInstances = 1, uint iterations = 1)
+        protected FlowSettings(object context = null, uint maxDegreeOfParallelism = 1, uint iterations = 1)
         {
             Context = context;
-            ParallelismInstances = parallelismInstances;
+            MaxDegreeOfParallelism = maxDegreeOfParallelism;
             Iterations = iterations;
         }
         public FlowType Type { get; set; }
         public uint Iterations { get; set; }
         public object Context { get; set; }
-        public uint ParallelismInstances { get; set; }
+        public uint MaxDegreeOfParallelism { get; set; }
     }
 }

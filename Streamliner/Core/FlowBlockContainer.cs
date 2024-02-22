@@ -10,14 +10,8 @@ namespace Streamliner.Core
         internal IEnumerable<BlockBase> Entrypoints => _entrypoints.Values;
         internal IEnumerable<BlockBase> Blocks => _blocks.Values;
 
-        private readonly Dictionary<Guid, BlockBase> _entrypoints;
-        private readonly Dictionary<Guid, BlockBase> _blocks;
-
-        public FlowBlockContainer()
-        {
-            _entrypoints = new Dictionary<Guid, BlockBase>();
-            _blocks = new Dictionary<Guid, BlockBase>();
-        }
+        private readonly Dictionary<Guid, BlockBase> _entrypoints = new Dictionary<Guid, BlockBase>();
+        private readonly Dictionary<Guid, BlockBase> _blocks = new Dictionary<Guid, BlockBase>();
 
         internal void AddProducer<T>(ProducerBlock<T> producer)
         {

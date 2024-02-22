@@ -5,7 +5,7 @@ using Streamliner.Definitions.Metadata.Flow;
 
 namespace Streamliner.Fluent.Waiter
 {
-    public class FluentWaiterDefinitionThatWaits
+    public sealed class FluentWaiterDefinitionThatWaits
     {
         private readonly BlockInfo _blockInfo;
         private readonly FlowWaiterSettings _waiterSettings;

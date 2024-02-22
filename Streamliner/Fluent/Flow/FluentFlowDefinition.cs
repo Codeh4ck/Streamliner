@@ -4,7 +4,7 @@ using Streamliner.Definitions.Metadata.Flow;
 
 namespace Streamliner.Fluent.Flow
 {
-    public class FluentFlowDefinition
+    public sealed class FluentFlowDefinition
     {
         private readonly FlowType _flowType;
         private uint _iterations = 1;

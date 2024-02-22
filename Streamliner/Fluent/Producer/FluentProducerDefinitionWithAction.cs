@@ -5,7 +5,7 @@ using Streamliner.Definitions.Metadata.Flow;
 
 namespace Streamliner.Fluent.Producer
 {
-    public class FluentProducerDefinitionWithAction<T>
+    public sealed class FluentProducerDefinitionWithAction<T>
     {
         private readonly BlockInfo _blockInfo;
         private readonly FlowProducerSettings _producerSettings;

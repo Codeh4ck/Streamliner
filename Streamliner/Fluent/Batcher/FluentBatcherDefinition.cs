@@ -4,7 +4,7 @@ using Streamliner.Definitions.Metadata.Flow;
 
 namespace Streamliner.Fluent.Batcher
 {
-    public class FluentBatcherDefinition
+    public sealed class FluentBatcherDefinition
     {
         private readonly ProducerType _producerType;
 
@@ -12,7 +12,7 @@ namespace Streamliner.Fluent.Batcher
         private TimeSpan _maxBatchTimeout;
         private object _withContext = null;
         private int _capacity = 1;
-        private uint _parallelismInstances = 1;
+        private uint _maxDegreeOfParallelism = 1;
 
         internal FluentBatcherDefinition(ProducerType producerType) => _producerType = producerType;
 
@@ -22,9 +22,9 @@ namespace Streamliner.Fluent.Batcher
             return this;
         }
 
-        public FluentBatcherDefinition WithParallelismInstances(uint instances)
+        public FluentBatcherDefinition WithMaxDegreeOfParallelism(uint degree)
         {
-            _parallelismInstances = instances;
+            _maxDegreeOfParallelism = degree;
             return this;
         }
 
@@ -48,6 +48,6 @@ namespace Streamliner.Fluent.Batcher
 
         public FluentBatcherDefinitionThatBatches WithBlockInfo(Guid id, string name) =>
             new FluentBatcherDefinitionThatBatches(new BlockInfo(id, name, BlockType.Producer),
-                new FlowBatcherSettings(_producerType, _maxBatchSize, _maxBatchTimeout, _capacity, _withContext, _parallelismInstances));
+                new FlowBatcherSettings(_producerType, _maxBatchSize, _maxBatchTimeout, _capacity, _withContext, _maxDegreeOfParallelism));
     }
 }

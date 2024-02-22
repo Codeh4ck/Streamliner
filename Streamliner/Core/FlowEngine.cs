@@ -41,6 +41,11 @@ namespace Streamliner.Core
             return flowPlan;
         }
 
+        public void StartFlow(IFlowPlan flowPlan)
+        {
+            flowPlan.Start();
+        }
+
         public bool StopFlow(Guid planId)
         {
             if (!_flowPlans.TryRemove(planId, out IFlowPlan flowPlan))
@@ -49,6 +54,8 @@ namespace Streamliner.Core
             flowPlan.Stop();
             return true;
         }
+
+        public bool StopFlow(IFlowPlan flowPlan) => StopFlow(flowPlan.Definition.ServiceInfo.Id);
 
         protected override void OnStop()
         {

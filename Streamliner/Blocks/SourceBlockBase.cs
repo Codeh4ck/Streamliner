@@ -10,8 +10,8 @@ namespace Streamliner.Blocks
 {
     public abstract class SourceBlockBase<T> : BlockBase, ISourceBlock<T>
     {
-        public LinkRouterBase<T> Router { get; }
-        public List<ITargetBlock<T>> Children { get; }
+        protected LinkRouterBase<T> Router { get; }
+        private List<ITargetBlock<T>> Children { get; }
 
         protected SourceBlockBase(BlockHeader header, FlowSettings settings, LinkRouterBase<T> router) : base(header, settings)
         {

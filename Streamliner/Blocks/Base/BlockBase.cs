@@ -12,7 +12,7 @@ namespace Streamliner.Blocks.Base
     {
         public BlockHeader Header { get; }
 
-        private protected FlowSettings FlowSettings { get; }
+        private FlowSettings FlowSettings { get; }
 
         public ILogger Logger { get; set; }
         public IFlowAuditLogger AuditLogger { get; set; }
@@ -134,7 +134,7 @@ namespace Streamliner.Blocks.Base
 
         private void StartFlow()
         {
-            _processingTasks = new Task[FlowSettings.ParallelismInstances];
+            _processingTasks = new Task[FlowSettings.MaxDegreeOfParallelism];
 
             if (AuditLogger != null)
             {
@@ -142,7 +142,7 @@ namespace Streamliner.Blocks.Base
                 _pingTask.Start();
             }
 
-            for (uint x = 0; x < FlowSettings.ParallelismInstances; x++)
+            for (uint x = 0; x < FlowSettings.MaxDegreeOfParallelism; x++)
             {
                 if (AuditLogger == null)
                     _processingTasks[x] = new Task(Process, _cancellationToken, TaskCreationOptions.LongRunning);

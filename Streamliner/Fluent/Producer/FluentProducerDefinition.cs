@@ -4,11 +4,11 @@ using Streamliner.Definitions.Metadata.Flow;
 
 namespace Streamliner.Fluent.Producer
 {
-    public class FluentProducerDefinition
+    public sealed class FluentProducerDefinition
     {
         private readonly ProducerType _producerType;
         private object _withContext = null;
-        private uint _parallelismInstances = 1;
+        private uint _maxDegreeOfParallelism = 1;
 
         internal FluentProducerDefinition(ProducerType producerType) => _producerType = producerType;
 
@@ -18,14 +18,14 @@ namespace Streamliner.Fluent.Producer
             return this;
         }
 
-        public FluentProducerDefinition WithParallelismInstances(uint instances)
+        public FluentProducerDefinition WithMaxDegreeOfParallelism(uint degree)
         {
-            _parallelismInstances = instances;
+            _maxDegreeOfParallelism = degree;
             return this;
         }
 
         public FluentProducerDefinitionThatProduces WithBlockInfo(Guid id, string name) =>
             new FluentProducerDefinitionThatProduces(new BlockInfo(id, name, BlockType.Producer),
-                new FlowProducerSettings(_producerType, _withContext, _parallelismInstances));
+                new FlowProducerSettings(_producerType, _withContext, _maxDegreeOfParallelism));
     }
 }

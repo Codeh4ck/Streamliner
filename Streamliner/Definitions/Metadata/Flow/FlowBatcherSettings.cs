@@ -9,7 +9,8 @@ namespace Streamliner.Definitions.Metadata.Flow
         public int MaxBatchSize { get; }
         public TimeSpan MaxBatchTimeout { get; }
 
-        public FlowBatcherSettings(ProducerType producerType, int maxBatchSize, TimeSpan maxBatchTimeout, int capacity, object context = null, uint parallelismInstances = 1) : base(capacity, context, parallelismInstances)
+        public FlowBatcherSettings(ProducerType producerType, int maxBatchSize, TimeSpan maxBatchTimeout, int capacity,
+            object context = null, uint maxDegreeOfParallelism = 1) : base(capacity, context, maxDegreeOfParallelism)
         {
             ProducerType = producerType;
             MaxBatchSize = maxBatchSize;

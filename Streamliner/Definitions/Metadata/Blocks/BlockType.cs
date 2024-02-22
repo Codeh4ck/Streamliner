@@ -4,6 +4,7 @@
     {
         Producer,
         Batcher,
+        Partitioner,
         Transformer,
         Consumer,
         Waiter
