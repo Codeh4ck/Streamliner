@@ -6,7 +6,7 @@ Streamliner creates a directed acyclic graph which represents the workflow in se
 |------------------	|---------------------------------------------	|
 | .NET Core        	| 2.0, 2.1, 2.2, 3.0, 3.1                     	|
 | .NET Framework   	| 4.6.1, 4.6.2, 4.7, 4.7.1, 4.7.2, 4.8, 4.8.1 	|
-| .NET             	| 5, 6, 7                                     	|
+| .NET             	| 5, 6, 7, 8                                    |
 
 ### Check the [examples](https://github.com/Codeh4ck/Streamliner/tree/examples) branch for example projects.
 
